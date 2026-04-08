@@ -1,0 +1,30 @@
+name: drug
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - jupyterlab
+  - ipykernel
+  - shap
+  - rdkit
+  - networkx
+  - requests
+  - tqdm
+  - pip:
+      - pubchempy
+      - openai
+      - transformers
+      - datasets
+      - accelerate
+      - sentencepiece
+      - pyarrow
+      - xgboost
+      - lightgbm

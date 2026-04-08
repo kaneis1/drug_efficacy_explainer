@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.pkl
+*.parquet
+*.csv.gz
+data/
+results/dem/leaf_assignments.csv
+results/tuning/
+results/rf_plots/

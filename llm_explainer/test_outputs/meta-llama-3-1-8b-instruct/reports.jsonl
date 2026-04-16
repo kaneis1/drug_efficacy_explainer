@@ -1,0 +1,2 @@
+{"report_id": "RPT-0001", "evidence_id": "SHAP-0001", "report_title": "RPT-0001 - cytarabine hydrochloride on SKMEL2", "model_key": "Meta-Llama-3.1-8B-Instruct", "prompt_token_count": 2333, "report_markdown": "_Dry run only: prompt written, generation skipped._"}
+{"report_id": "RPT-0002", "evidence_id": "SHAP-0002", "report_title": "RPT-0002 - birinapant on KYM1", "model_key": "Meta-Llama-3.1-8B-Instruct", "prompt_token_count": 2362, "report_markdown": "_Dry run only: prompt written, generation skipped._"}

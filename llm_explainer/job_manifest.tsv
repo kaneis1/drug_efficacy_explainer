@@ -1,0 +1,6 @@
+model_key	job_id	queue	gpu_mem	host_mem	wall_minutes
+BioMistral-7B	237438427	gpuexpress	20G	48G	240
+Meditron-7b	237438428	gpuexpress	20G	48G	240
+Meta-Llama-3.1-8B-Instruct	237438429	gpuexpress	24G	64G	240
+Qwen2.5-32B-Instruct	237438430	gpuexpress	70G	96G	360
+gpt-oss-20b	237438431	gpuexpress	70G	96G	360

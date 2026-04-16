@@ -1,0 +1,94 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 450 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0003 - nilotinib on BT549
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of nilotinib on BT549 using observed AUC, the RF-predicted AUC, and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher AUC/resistance or lower AUC/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0003
+- evidence_id: SHAP-0003
+- drug_name: nilotinib
+- drug_id: 374749
+- gene_target: ABL1;BCR;KIT
+- mechanism: inhibitor of ABL1, BCR, and c-KIT
+- per_drug_cv_r2: 0.022705105548028
+- cell_line: BT549
+- tissue: breast
+- histology: carcinoma
+- subtype: ductal carcinoma
+- observed_auc: 23.7050
+- model_predicted_auc: 13.4663
+- prediction_error: +10.2387
+- abs_error: 10.2387
+- global_mean_auc: 12.8580
+- interpretation: exceptionally resistant relative to the SHAP-predicted response and cohort baselines
+- selection_reason: selected for a large positive prediction error (observed resistance above the model prediction)
+
+Drug cohort context:
+- n=773 | mean_auc=13.9591 | q10=12.0654 | median=14.4330 | q90=15.6900 | sample_percentile=100.0
+Cell cohort context:
+- n=403 | mean_auc=13.3170 | q10=10.3396 | median=13.8010 | q90=15.3618 | sample_percentile=100.0
+
+Top TreeSHAP features:
+1. TNFRSF12A (51330) | type=gene_expression | pushes the prediction toward higher AUC (relative resistance) | shap=+0.2006 | abs_shap=0.2006 | value=7.7769 | z=+0.60 | supporting_drugs=166 | note=near the cross-cell-line mean; recurs in 166 predictable-drug RF signatures
+2. fp_0367 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.1002 | abs_shap=0.1002 | value=1.0000 | pct_drugs=6.4 | SMARTS=[#6]:[#6](-[#6]):[#6] | note=representative SMARTS `[#6]:[#6](-[#6]):[#6]`; present in 6.4% of CTRPv2 compounds; example compounds: betulinic acid, gossypol, simvastatin
+3. fp_0443 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.0993 | abs_shap=0.0993 | value=0.0000 | pct_drugs=0.4 | SMARTS=[#6]:[#7]:[#6]:[#7](:[#6])-[#6] | note=representative SMARTS `[#6]:[#7]:[#6]:[#7](:[#6])-[#6]`; present in 0.4% of CTRPv2 compounds; example compounds: nilotinib, bleomycin A2
+4. fp_0204 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.0815 | abs_shap=0.0815 | value=0.0000 | pct_drugs=2.9 | SMARTS=[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6] | note=representative SMARTS `[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6]`; present in 2.9% of CTRPv2 compounds; example compounds: BRD-K26531177, NVP-BEZ235, CD-437
+5. fp_0538 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.0727 | abs_shap=0.0727 | value=1.0000 | pct_drugs=0.6 | SMARTS=[#6]-[#6](:[#6]):[#6]:[#7](:[#7])-[#6] | note=representative SMARTS `[#6]-[#6](:[#6]):[#6]:[#7](:[#7])-[#6]`; present in 0.6% of CTRPv2 compounds; example compounds: NSC19630, crizotinib, NVP-BSK805
+6. fp_0811 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.0573 | abs_shap=0.0573 | value=1.0000 | pct_drugs=2.1 | SMARTS=[#16]-[#6](:[#6]):[#6] | note=representative SMARTS `[#16]-[#6](:[#6]):[#6]`; present in 2.1% of CTRPv2 compounds; example compounds: VX-680, axitinib, navitoclax
+
+Same-drug cohort examples:
+1. cell=EOL1 | tissue=haematopoietic and lymphoid tissue | auc=0.1918 | profile=more sensitive
+2. cell=KYO1 | tissue=haematopoietic and lymphoid tissue | auc=0.7071 | profile=more sensitive
+3. cell=SNU475 | tissue=liver | auc=18.7440 | profile=more resistant
+4. cell=SNU245 | tissue=biliary tract | auc=18.7950 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=leptomycin B | target=XPO1 | auc=2.9978 | profile=more sensitive
+2. drug=ouabain | target=ATP1A1;ATP1A2;ATP1A3;ATP1A4;ATP1B1;ATP1B2;ATP1B3;ATP1B4 | auc=4.6538 | profile=more sensitive
+3. drug=sildenafil | target=PDE5A | auc=18.4760 | profile=more resistant
+4. drug=daporinad | target=NAMPT | auc=18.6370 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=311258, n_features=2024, train_r2=0.4928, train_rmse=1.8342, train_corr=0.7061. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.6648.
+- N-estimator tuning best row: max_depth=10, n_estimators=85, mean_r2=0.4752, std_r2=0.0113.
+- Top global fingerprint features: fp_0443 (0.07739), fp_0767 (0.05026), fp_0925 (0.04976), fp_0504 (0.04522), fp_0864 (0.04060), fp_0723 (0.02951).
+- Most common genes across predictable per-drug models: TNFRSF12A (51330) (166 drugs), MYOF (26509) (165 drugs), SDC4 (6385) (154 drugs), PRSS23 (11098) (146 drugs), LAMB2 (3913) (135 drugs), GPRC5A (9052) (124 drugs).
+- Per-drug cross-validated predictability for nilotinib: R2=0.0227.
+- Cell subtype metadata is available: ductal carcinoma.
+
+Write one grounded markdown report with the required section headings.

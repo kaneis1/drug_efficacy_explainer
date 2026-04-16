@@ -1,0 +1,94 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 450 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0019 - 1S,3R-RSL-3 on CAL62
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of 1S,3R-RSL-3 on CAL62 using observed AUC, the RF-predicted AUC, and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher AUC/resistance or lower AUC/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0019
+- evidence_id: SHAP-0019
+- drug_name: 1S,3R-RSL-3
+- drug_id: 609060
+- gene_target: GPX4
+- mechanism: synthetic lethal with HRAS in engineered cells; inhibitor of GPX4
+- per_drug_cv_r2: 0.2547748633420569
+- cell_line: CAL62
+- tissue: thyroid
+- histology: carcinoma
+- subtype: anaplastic carcinoma
+- observed_auc: 18.6380
+- model_predicted_auc: 9.6448
+- prediction_error: +8.9932
+- abs_error: 8.9932
+- global_mean_auc: 12.8580
+- interpretation: more resistant than the model predicted
+- selection_reason: selected for a large positive prediction error (observed resistance above the model prediction)
+
+Drug cohort context:
+- n=808 | mean_auc=8.0446 | q10=4.1912 | median=7.9968 | q90=12.3435 | sample_percentile=100.0
+Cell cohort context:
+- n=354 | mean_auc=13.6896 | q10=10.2066 | median=14.0290 | q90=16.9564 | sample_percentile=98.3
+
+Top TreeSHAP features:
+1. fp_0204 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-1.7674 | abs_shap=1.7674 | value=1.0000 | pct_drugs=2.9 | SMARTS=[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6] | note=representative SMARTS `[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6]`; present in 2.9% of CTRPv2 compounds; example compounds: BRD-K26531177, NVP-BEZ235, CD-437
+2. fp_0271 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.8043 | abs_shap=0.8043 | value=1.0000 | pct_drugs=5.0 | SMARTS=[#7]-[#6](:[#6]):[#6] | note=representative SMARTS `[#7]-[#6](:[#6]):[#6]`; present in 5.0% of CTRPv2 compounds; example compounds: trifluoperazine, prochlorperazine, BRD-K94991378
+3. TNFRSF12A (51330) | type=gene_expression | pushes the prediction toward higher AUC (relative resistance) | shap=+0.3501 | abs_shap=0.3501 | value=8.1221 | z=+0.74 | supporting_drugs=166 | note=near the cross-cell-line mean; recurs in 166 predictable-drug RF signatures
+4. fp_1017 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.3293 | abs_shap=0.3293 | value=1.0000 | pct_drugs=8.1 | SMARTS=[#6]-[#6] | note=representative SMARTS `[#6]-[#6]`; present in 8.1% of CTRPv2 compounds; example compounds: tretinoin, betulinic acid, paclitaxel
+5. fp_0806 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.2953 | abs_shap=0.2953 | value=0.0000 | pct_drugs=6.0 | SMARTS=[#6]:[#7]:[#6] | note=representative SMARTS `[#6]:[#7]:[#6]`; present in 6.0% of CTRPv2 compounds; example compounds: fluorouracil, cimetidine, dacarbazine
+6. fp_0062 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.1521 | abs_shap=0.1521 | value=0.0000 | pct_drugs=3.7 | SMARTS=[#6]-[#6](:[#6]):[#16] | note=representative SMARTS `[#6]-[#6](:[#6]):[#16]`; present in 3.7% of CTRPv2 compounds; example compounds: Merck60, cytarabine hydrochloride, VX-680
+
+Same-drug cohort examples:
+1. cell=SW948 | tissue=large intestine | auc=0.7235 | profile=more sensitive
+2. cell=DOHH2 | tissue=haematopoietic and lymphoid tissue | auc=1.0629 | profile=more sensitive
+3. cell=253JBV | tissue=urinary tract | auc=15.0000 | profile=more resistant
+4. cell=BEN | tissue=lung | auc=15.3970 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=SB-743921 | target=KIF11 | auc=4.5453 | profile=more sensitive
+2. drug=GSK461364 | target=PLK1 | auc=5.0099 | profile=more sensitive
+3. drug=RG-108 | target=DNMT1 | auc=20.7150 | profile=more resistant
+4. drug=BRD-K29086754 | target=n/a | auc=20.7840 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=311258, n_features=2024, train_r2=0.4928, train_rmse=1.8342, train_corr=0.7061. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.6648.
+- N-estimator tuning best row: max_depth=10, n_estimators=85, mean_r2=0.4752, std_r2=0.0113.
+- Top global fingerprint features: fp_0443 (0.07739), fp_0767 (0.05026), fp_0925 (0.04976), fp_0504 (0.04522), fp_0864 (0.04060), fp_0723 (0.02951).
+- Most common genes across predictable per-drug models: TNFRSF12A (51330) (166 drugs), MYOF (26509) (165 drugs), SDC4 (6385) (154 drugs), PRSS23 (11098) (146 drugs), LAMB2 (3913) (135 drugs), GPRC5A (9052) (124 drugs).
+- Per-drug cross-validated predictability for 1S,3R-RSL-3: R2=0.2548.
+- Cell subtype metadata is available: anaplastic carcinoma.
+
+Write one grounded markdown report with the required section headings.

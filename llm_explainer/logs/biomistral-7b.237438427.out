@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg05e17>
+Subject: Job 237438427: <llmexp_biomistral-7b> in cluster <chimera> Done
+
+Job <llmexp_biomistral-7b> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Wed Apr 15 18:09:04 2026
+Job was executed on host(s) <4*lg05e17>, in queue <gpuexpress>, as user <cuiz02> in cluster <chimera> at Wed Apr 15 18:09:06 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Wed Apr 15 18:09:06 2026
+Terminated at Wed Apr 15 18:11:09 2026
+Results reported at Wed Apr 15 18:11:09 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py --model-key "BioMistral-7B" --reports "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports.jsonl" --results-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results" --output-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/outputs" --overwrite
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   97.00 sec.
+    Max Memory :                                 1302 MB
+    Average Memory :                             671.92 MB
+    Total Requested Memory :                     196608.00 MB
+    Delta Memory :                               195306.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                14
+    Run time :                                   123 sec.
+    Turnaround time :                            125 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/biomistral-7b.237438427.err> for stderr output of this job.
+

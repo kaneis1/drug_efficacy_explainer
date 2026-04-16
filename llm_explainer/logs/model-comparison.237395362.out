@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lh06c07>
+Subject: Job 237395362: <llmexp_compare> in cluster <chimera> Done
+
+Job <llmexp_compare> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Wed Apr 15 12:15:17 2026
+Job was executed on host(s) <lh06c07>, in queue <express>, as user <cuiz02> in cluster <chimera> at Wed Apr 15 12:20:57 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Wed Apr 15 12:20:57 2026
+Terminated at Wed Apr 15 12:20:58 2026
+Results reported at Wed Apr 15 12:20:58 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/build_comparison.py --reports "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results/dem/sample_reports.jsonl" --outputs-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/outputs" --out-file "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/model_comparison.md"
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   0.20 sec.
+    Max Memory :                                 10 MB
+    Average Memory :                             10.00 MB
+    Total Requested Memory :                     8192.00 MB
+    Delta Memory :                               8182.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                4
+    Run time :                                   1 sec.
+    Turnaround time :                            341 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/model-comparison.237395362.err> for stderr output of this job.
+

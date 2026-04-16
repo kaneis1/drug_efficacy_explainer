@@ -1,0 +1,94 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+Reasoning: medium. Do not expose hidden reasoning.
+
+[USER]
+Case: RPT-0025 - ouabain on TUHR10TKB
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of ouabain on TUHR10TKB using observed AUC, the RF-predicted AUC, and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher AUC/resistance or lower AUC/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0025
+- evidence_id: SHAP-0025
+- drug_name: ouabain
+- drug_id: 37190
+- gene_target: ATP1A1;ATP1A2;ATP1A3;ATP1A4;ATP1B1;ATP1B2;ATP1B3;ATP1B4
+- mechanism: cardiac glycoside; inhibitor of the Na+/K+-ATPase
+- per_drug_cv_r2: 0.1543702677510171
+- cell_line: TUHR10TKB
+- tissue: kidney
+- histology: carcinoma
+- subtype: n/a
+- observed_auc: 29.3500
+- model_predicted_auc: 20.6181
+- prediction_error: +8.7319
+- abs_error: 8.7319
+- global_mean_auc: 12.8580
+- interpretation: exceptionally resistant relative to the SHAP-predicted response and cohort baselines
+- selection_reason: selected for a large positive prediction error (observed resistance above the model prediction)
+
+Drug cohort context:
+- n=808 | mean_auc=5.8459 | q10=2.8572 | median=5.4318 | q90=9.3618 | sample_percentile=100.0
+Cell cohort context:
+- n=394 | mean_auc=13.7497 | q10=11.1287 | median=13.9475 | q90=16.1392 | sample_percentile=100.0
+
+Top TreeSHAP features:
+1. CSF1 (1435) | type=gene_expression | pushes the prediction toward higher AUC (relative resistance) | shap=+1.0870 | abs_shap=1.0870 | value=7.8048 | z=+2.69 | supporting_drugs=13 | note=markedly above the cross-cell-line mean; recurs in 13 predictable-drug RF signatures
+2. fp_0009 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.9989 | abs_shap=0.9989 | value=0.0000 | pct_drugs=3.3 | SMARTS=[#6]-[#6](=[#8])-[#6] | example_drugs=IC-87114, sorafenib, SNX-2112 | note=representative SMARTS `[#6]-[#6](=[#8])-[#6]`; present in 3.3% of CTRPv2 compounds; example compounds: IC-87114, sorafenib, SNX-2112
+3. fp_0443 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.5723 | abs_shap=0.5723 | value=1.0000 | pct_drugs=0.4 | SMARTS=[#6]:[#7]:[#6]:[#7](:[#6])-[#6] | example_drugs=nilotinib, bleomycin A2 | note=representative SMARTS `[#6]:[#7]:[#6]:[#7](:[#6])-[#6]`; present in 0.4% of CTRPv2 compounds; example compounds: nilotinib, bleomycin A2
+4. SDC4 (6385) | type=gene_expression | pushes the prediction toward higher AUC (relative resistance) | shap=+0.4625 | abs_shap=0.4625 | value=7.7349 | z=+1.02 | supporting_drugs=154 | note=above the cross-cell-line mean; recurs in 154 predictable-drug RF signatures
+5. COL18A1 (80781) | type=gene_expression | pushes the prediction toward higher AUC (relative resistance) | shap=+0.3655 | abs_shap=0.3655 | value=8.1162 | z=+2.18 | supporting_drugs=15 | note=markedly above the cross-cell-line mean; recurs in 15 predictable-drug RF signatures
+6. TNFRSF12A (51330) | type=gene_expression | pushes the prediction toward higher AUC (relative resistance) | shap=+0.1918 | abs_shap=0.1918 | value=9.5256 | z=+1.30 | supporting_drugs=166 | note=above the cross-cell-line mean; recurs in 166 predictable-drug RF signatures
+
+Same-drug cohort examples:
+1. cell=JEKO1 | tissue=haematopoietic and lymphoid tissue | auc=0.7869 | profile=more sensitive
+2. cell=MINO | tissue=haematopoietic and lymphoid tissue | auc=0.8414 | profile=more sensitive
+3. cell=NCIH2291 | tissue=lung | auc=16.1600 | profile=more resistant
+4. cell=NCIH2228 | tissue=lung | auc=16.2850 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=leptomycin B | target=XPO1 | auc=2.3645 | profile=more sensitive
+2. drug=LBH-589 | target=HDAC1;HDAC2;HDAC3;HDAC6;HDAC8 | auc=6.0701 | profile=more sensitive
+3. drug=PRIMA-1 | target=TP53 | auc=18.3800 | profile=more resistant
+4. drug=CID-5951923 | target=KLF5 | auc=18.7020 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=311258, n_features=2024, train_r2=0.4928, train_rmse=1.8342, train_corr=0.7061. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.6648.
+- N-estimator tuning best row: max_depth=10, n_estimators=85, mean_r2=0.4752, std_r2=0.0113.
+- Top global fingerprint features: fp_0443 (0.07739), fp_0767 (0.05026), fp_0925 (0.04976), fp_0504 (0.04522), fp_0864 (0.04060), fp_0723 (0.02951), fp_0806 (0.02637), fp_0204 (0.02169).
+- Most common genes across predictable per-drug models: TNFRSF12A (51330) (166 drugs), MYOF (26509) (165 drugs), SDC4 (6385) (154 drugs), PRSS23 (11098) (146 drugs), LAMB2 (3913) (135 drugs), GPRC5A (9052) (124 drugs), IKZF1 (10320) (115 drugs), ITGA3 (3675) (115 drugs).
+- Per-drug cross-validated predictability for ouabain: R2=0.1544.
+
+Write one grounded markdown report with the required section headings.

@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg05e15>
+Subject: Job 237395361: <llmexp_gpt-oss-20b> in cluster <chimera> Done
+
+Job <llmexp_gpt-oss-20b> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Wed Apr 15 12:15:17 2026
+Job was executed on host(s) <4*lg05e15>, in queue <gpuexpress>, as user <cuiz02> in cluster <chimera> at Wed Apr 15 12:15:21 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Wed Apr 15 12:15:21 2026
+Terminated at Wed Apr 15 12:18:55 2026
+Results reported at Wed Apr 15 12:18:55 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py --model-key "gpt-oss-20b" --reports "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results/dem/sample_reports.jsonl" --results-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results" --output-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/outputs" --overwrite
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   193.00 sec.
+    Max Memory :                                 1401 MB
+    Average Memory :                             1137.90 MB
+    Total Requested Memory :                     393216.00 MB
+    Delta Memory :                               391815.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                14
+    Run time :                                   214 sec.
+    Turnaround time :                            218 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/gpt-oss-20b.237395361.err> for stderr output of this job.
+

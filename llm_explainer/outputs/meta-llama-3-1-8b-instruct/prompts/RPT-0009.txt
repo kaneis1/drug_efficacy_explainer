@@ -1,0 +1,93 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0009 - docetaxel on KPNYN
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of docetaxel on KPNYN using observed AUC, the RF-predicted AUC, and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher AUC/resistance or lower AUC/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0009
+- evidence_id: SHAP-0009
+- drug_name: docetaxel
+- drug_id: 660364
+- gene_target: n/a
+- mechanism: inhibitor of microtubule assembly
+- per_drug_cv_r2: 0.2934464276668637
+- cell_line: KPNYN
+- tissue: autonomic ganglia
+- histology: neuroblastoma
+- subtype: n/a
+- observed_auc: 17.3740
+- model_predicted_auc: 7.9419
+- prediction_error: +9.4321
+- abs_error: 9.4321
+- global_mean_auc: 12.8580
+- interpretation: more resistant than the model predicted
+- selection_reason: selected for a large positive prediction error (observed resistance above the model prediction)
+
+Drug cohort context:
+- n=374 | mean_auc=6.6365 | q10=1.9261 | median=6.6621 | q90=11.3557 | sample_percentile=100.0
+Cell cohort context:
+- n=374 | mean_auc=13.7829 | q10=11.9721 | median=13.9665 | q90=15.4320 | sample_percentile=98.7
+
+Top TreeSHAP features:
+1. fp_1009 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-1.6916 | abs_shap=1.6916 | value=1.0000 | pct_drugs=9.1 | SMARTS=[#6]-[#6](:[#6]):[#6] | example_drugs=betulinic acid, isoliquiritigenin, curcumin | note=representative SMARTS `[#6]-[#6](:[#6]):[#6]`; present in 9.1% of CTRPv2 compounds; example compounds: betulinic acid, isoliquiritigenin, curcumin
+2. fp_0443 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-1.1463 | abs_shap=1.1463 | value=1.0000 | pct_drugs=0.4 | SMARTS=[#6]:[#7]:[#6]:[#7](:[#6])-[#6] | example_drugs=nilotinib, bleomycin A2 | note=representative SMARTS `[#6]:[#7]:[#6]:[#7](:[#6])-[#6]`; present in 0.4% of CTRPv2 compounds; example compounds: nilotinib, bleomycin A2
+3. fp_0204 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.7446 | abs_shap=0.7446 | value=1.0000 | pct_drugs=2.9 | SMARTS=[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6] | example_drugs=BRD-K26531177, NVP-BEZ235, CD-437 | note=representative SMARTS `[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6]`; present in 2.9% of CTRPv2 compounds; example compounds: BRD-K26531177, NVP-BEZ235, CD-437
+4. TNFRSF12A (51330) | type=gene_expression | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.4360 | abs_shap=0.4360 | value=0.7524 | z=-2.18 | supporting_drugs=166 | note=markedly below the cross-cell-line mean; recurs in 166 predictable-drug RF signatures
+5. fp_0741 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.2464 | abs_shap=0.2464 | value=1.0000 | pct_drugs=6.7 | SMARTS=[#7]-[#6]-[#6] | example_drugs=BIX-01294, IC-87114, ML031 | note=representative SMARTS `[#7]-[#6]-[#6]`; present in 6.7% of CTRPv2 compounds; example compounds: BIX-01294, IC-87114, ML031
+6. fp_0271 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.2446 | abs_shap=0.2446 | value=1.0000 | pct_drugs=5.0 | SMARTS=[#7]-[#6](:[#6]):[#6] | example_drugs=trifluoperazine, prochlorperazine, BRD-K94991378 | note=representative SMARTS `[#7]-[#6](:[#6]):[#6]`; present in 5.0% of CTRPv2 compounds; example compounds: trifluoperazine, prochlorperazine, BRD-K94991378
+
+Same-drug cohort examples:
+1. cell=697 | tissue=haematopoietic and lymphoid tissue | auc=0.1864 | profile=more sensitive
+2. cell=OCIAML3 | tissue=haematopoietic and lymphoid tissue | auc=0.2513 | profile=more sensitive
+3. cell=TUHR14TKB | tissue=kidney | auc=14.5600 | profile=more resistant
+4. cell=MALME3M | tissue=skin | auc=14.5730 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=leptomycin B | target=XPO1 | auc=6.9324 | profile=more sensitive
+2. drug=1S,3R-RSL-3 | target=GPX4 | auc=7.8236 | profile=more sensitive
+3. drug=erlotinib | target=EGFR;ERBB2 | auc=19.1630 | profile=more resistant
+4. drug=pevonedistat | target=NAE1 | auc=19.5720 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=311258, n_features=2024, train_r2=0.4928, train_rmse=1.8342, train_corr=0.7061. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.6648.
+- N-estimator tuning best row: max_depth=10, n_estimators=85, mean_r2=0.4752, std_r2=0.0113.
+- Top global fingerprint features: fp_0443 (0.07739), fp_0767 (0.05026), fp_0925 (0.04976), fp_0504 (0.04522), fp_0864 (0.04060), fp_0723 (0.02951), fp_0806 (0.02637), fp_0204 (0.02169).
+- Most common genes across predictable per-drug models: TNFRSF12A (51330) (166 drugs), MYOF (26509) (165 drugs), SDC4 (6385) (154 drugs), PRSS23 (11098) (146 drugs), LAMB2 (3913) (135 drugs), GPRC5A (9052) (124 drugs), IKZF1 (10320) (115 drugs), ITGA3 (3675) (115 drugs).
+- Per-drug cross-validated predictability for docetaxel: R2=0.2934.
+
+Write one grounded markdown report with the required section headings.

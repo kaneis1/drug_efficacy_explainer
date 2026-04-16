@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg05e14>
+Subject: Job 237394929: <llmexp_qwen2-5-32b-instruct> in cluster <chimera> Done
+
+Job <llmexp_qwen2-5-32b-instruct> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Wed Apr 15 11:58:34 2026
+Job was executed on host(s) <4*lg05e14>, in queue <gpuexpress>, as user <cuiz02> in cluster <chimera> at Wed Apr 15 11:58:38 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Wed Apr 15 11:58:38 2026
+Terminated at Wed Apr 15 12:04:09 2026
+Results reported at Wed Apr 15 12:04:09 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py --model-key "Qwen2.5-32B-Instruct" --reports "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results/dem/sample_reports.jsonl" --results-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results" --output-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/outputs" --overwrite
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   350.00 sec.
+    Max Memory :                                 1456 MB
+    Average Memory :                             1108.01 MB
+    Total Requested Memory :                     393216.00 MB
+    Delta Memory :                               391760.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                14
+    Run time :                                   331 sec.
+    Turnaround time :                            335 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/qwen2-5-32b-instruct.237394929.err> for stderr output of this job.
+

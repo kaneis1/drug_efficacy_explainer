@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg02e17>
+Subject: Job 237395359: <llmexp_meta-llama-3-1-8b-instruct> in cluster <chimera> Done
+
+Job <llmexp_meta-llama-3-1-8b-instruct> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Wed Apr 15 12:15:17 2026
+Job was executed on host(s) <4*lg02e17>, in queue <gpuexpress>, as user <cuiz02> in cluster <chimera> at Wed Apr 15 12:15:21 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Wed Apr 15 12:15:21 2026
+Terminated at Wed Apr 15 12:18:44 2026
+Results reported at Wed Apr 15 12:18:44 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py --model-key "Meta-Llama-3.1-8B-Instruct" --reports "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results/dem/sample_reports.jsonl" --results-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results" --output-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/outputs" --overwrite
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   208.00 sec.
+    Max Memory :                                 1368 MB
+    Average Memory :                             1218.69 MB
+    Total Requested Memory :                     262144.00 MB
+    Delta Memory :                               260776.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                14
+    Run time :                                   203 sec.
+    Turnaround time :                            207 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/meta-llama-3-1-8b-instruct.237395359.err> for stderr output of this job.
+

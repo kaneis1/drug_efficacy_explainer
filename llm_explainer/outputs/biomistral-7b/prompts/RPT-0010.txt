@@ -1,0 +1,93 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 450 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0010 - RITA on TE441T
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of RITA on TE441T using observed AUC, the RF-predicted AUC, and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher AUC/resistance or lower AUC/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0010
+- evidence_id: SHAP-0010
+- drug_name: RITA
+- drug_id: 375492
+- gene_target: MDM2;TP53
+- mechanism: inhibitor of p53-MDM2 interaction
+- per_drug_cv_r2: 0.2078137622368054
+- cell_line: TE441T
+- tissue: soft tissue
+- histology: rhabdomyosarcoma
+- subtype: n/a
+- observed_auc: 1.3692
+- model_predicted_auc: 13.5331
+- prediction_error: -12.1639
+- abs_error: 12.1639
+- global_mean_auc: 12.8580
+- interpretation: exceptionally sensitive relative to the SHAP-predicted response and cohort baselines
+- selection_reason: selected for a large negative prediction error (observed sensitivity below the model prediction)
+
+Drug cohort context:
+- n=768 | mean_auc=12.6550 | q10=8.7796 | median=13.3960 | q90=14.9503 | sample_percentile=0.1
+Cell cohort context:
+- n=400 | mean_auc=12.4603 | q10=8.3222 | median=13.2110 | q90=14.9732 | sample_percentile=0.8
+
+Top TreeSHAP features:
+1. TNFRSF12A (51330) | type=gene_expression | pushes the prediction toward higher AUC (relative resistance) | shap=+0.2021 | abs_shap=0.2021 | value=6.2249 | z=-0.01 | supporting_drugs=166 | note=near the cross-cell-line mean; recurs in 166 predictable-drug RF signatures
+2. fp_0760 | type=fingerprint_bit | pushes the prediction toward lower AUC (relative sensitivity) | shap=-0.0898 | abs_shap=0.0898 | value=1.0000 | pct_drugs=4.4 | SMARTS=[#6]-[#6]-[#7](-[#6]-[#6])-[#6](=[#8])-[#6] | note=representative SMARTS `[#6]-[#6]-[#7](-[#6]-[#6])-[#6](=[#8])-[#6]`; present in 4.4% of CTRPv2 compounds; example compounds: betulinic acid, paclitaxel, ouabain
+3. fp_0443 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.0888 | abs_shap=0.0888 | value=0.0000 | pct_drugs=0.4 | SMARTS=[#6]:[#7]:[#6]:[#7](:[#6])-[#6] | note=representative SMARTS `[#6]:[#7]:[#6]:[#7](:[#6])-[#6]`; present in 0.4% of CTRPv2 compounds; example compounds: nilotinib, bleomycin A2
+4. fp_0902 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.0803 | abs_shap=0.0803 | value=0.0000 | pct_drugs=1.0 | SMARTS=[#8]-[#6@H](-[#8]-[#6@H](-[#6])-[#6])-[#6@@H] | note=representative SMARTS `[#8]-[#6@H](-[#8]-[#6@H](-[#6])-[#6])-[#6@@H]`; present in 1.0% of CTRPv2 compounds; example compounds: teniposide, NSC23766, etoposide
+5. fp_0204 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.0779 | abs_shap=0.0779 | value=0.0000 | pct_drugs=2.9 | SMARTS=[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6] | note=representative SMARTS `[#6]-[#6](:[#6]):[#6]:[#6](:[#6]):[#6]`; present in 2.9% of CTRPv2 compounds; example compounds: BRD-K26531177, NVP-BEZ235, CD-437
+6. fp_0367 | type=fingerprint_bit | pushes the prediction toward higher AUC (relative resistance) | shap=+0.0763 | abs_shap=0.0763 | value=0.0000 | pct_drugs=6.4 | SMARTS=[#6]:[#6](-[#6]):[#6] | note=representative SMARTS `[#6]:[#6](-[#6]):[#6]`; present in 6.4% of CTRPv2 compounds; example compounds: betulinic acid, gossypol, simvastatin
+
+Same-drug cohort examples:
+1. cell=BCP1 | tissue=haematopoietic and lymphoid tissue | auc=1.5251 | profile=more sensitive
+2. cell=SET2 | tissue=haematopoietic and lymphoid tissue | auc=2.0638 | profile=more sensitive
+3. cell=BFTC905 | tissue=urinary tract | auc=17.2140 | profile=more resistant
+4. cell=CAL120 | tissue=breast | auc=18.9540 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=dinaciclib | target=CDK1;CDK2;CDK5;CDK9 | auc=0.8076 | profile=more sensitive
+2. drug=leptomycin B | target=XPO1 | auc=1.0931 | profile=more sensitive
+3. drug=procarbazine | target=n/a | auc=17.3000 | profile=more resistant
+4. drug=BRD-K16147474 | target=n/a | auc=17.6670 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=311258, n_features=2024, train_r2=0.4928, train_rmse=1.8342, train_corr=0.7061. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.6648.
+- N-estimator tuning best row: max_depth=10, n_estimators=85, mean_r2=0.4752, std_r2=0.0113.
+- Top global fingerprint features: fp_0443 (0.07739), fp_0767 (0.05026), fp_0925 (0.04976), fp_0504 (0.04522), fp_0864 (0.04060), fp_0723 (0.02951).
+- Most common genes across predictable per-drug models: TNFRSF12A (51330) (166 drugs), MYOF (26509) (165 drugs), SDC4 (6385) (154 drugs), PRSS23 (11098) (146 drugs), LAMB2 (3913) (135 drugs), GPRC5A (9052) (124 drugs).
+- Per-drug cross-validated predictability for RITA: R2=0.2078.
+
+Write one grounded markdown report with the required section headings.

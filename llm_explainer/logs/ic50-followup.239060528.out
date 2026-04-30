@@ -1,0 +1,47 @@
+Sender: LSF System <lsfadmin@lc07e01>
+Subject: Job 239060528: <ic50_followup> in cluster <chimera> Exited
+
+Job <ic50_followup> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Tue Apr 21 11:33:24 2026
+Job was executed on host(s) <16*lc07e01>, in queue <premium>, as user <cuiz02> in cluster <chimera> at Tue Apr 21 11:33:26 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Tue Apr 21 11:33:26 2026
+Terminated at Tue Apr 21 11:52:47 2026
+Results reported at Tue Apr 21 11:52:47 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+bash /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/run_ic50_followup.sh
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 143.
+
+Resource usage summary:
+
+    CPU time :                                   1133.00 sec.
+    Max Memory :                                 7332 MB
+    Average Memory :                             7072.36 MB
+    Total Requested Memory :                     1048576.00 MB
+    Delta Memory :                               1041244.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                6
+    Run time :                                   1161 sec.
+    Turnaround time :                            1163 sec.
+
+The output (if any) follows:
+
+[11:33:26] ROOT=/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy
+[11:33:26] SHAP_VALUES=results_ic50/tuning/shap_values.parquet
+[11:33:26] PER_DRUG_R2=results_ic50/rf_plots/per_drug_r2.csv
+[11:33:26] PAIRS=data/processed/pairs_ic50.csv
+[11:33:26] === 1. select_knn_cases.py (k=20) ===
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/ic50-followup.239060528.err> for stderr output of this job.
+

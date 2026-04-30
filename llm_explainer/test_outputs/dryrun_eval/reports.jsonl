@@ -1,0 +1,2 @@
+{"report_id": "RPT-0009", "evidence_id": "SHAP-0009", "report_title": "RPT-0009 - docetaxel on KPNYN", "model_key": "Meta-Llama-3.1-8B-Instruct", "prompt_token_count": 2241, "report_markdown": "_Dry run only: prompt written, generation skipped._"}
+{"report_id": "RPT-0024", "evidence_id": "SHAP-0024", "report_title": "RPT-0024 - KX2-391 on SNU16", "model_key": "Meta-Llama-3.1-8B-Instruct", "prompt_token_count": 2249, "report_markdown": "_Dry run only: prompt written, generation skipped._"}

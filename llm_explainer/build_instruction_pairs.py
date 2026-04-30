@@ -39,6 +39,11 @@ def parse_args() -> argparse.Namespace:
         help="Markdown report bundle containing `## RPT-XXXX - ...` sections.",
     )
     parser.add_argument(
+        "--prepared-requests-jsonl",
+        default="",
+        help="Optional prebuilt request JSONL from prepare_sft_data.py. When set, it overrides --reports-* inputs.",
+    )
+    parser.add_argument(
         "--reports-jsonl",
         default="llm_explainer/shap_sample_reports.jsonl",
         help="Structured JSONL bundle aligned to the markdown report sections.",
@@ -256,16 +261,17 @@ def load_completed_ids(path: Path) -> set[str]:
 def main() -> None:
     args = parse_args()
 
+    prepared_requests_path = Path(args.prepared_requests_jsonl).resolve() if args.prepared_requests_jsonl else None
     reports_md = Path(args.reports_md).resolve()
     reports_jsonl = Path(args.reports_jsonl).resolve()
     results_root = Path(args.results_root).resolve()
     out_jsonl = Path(args.out_jsonl).resolve()
     out_jsonl.parent.mkdir(parents=True, exist_ok=True)
 
-    if not reports_jsonl.exists():
+    if prepared_requests_path is None and not reports_jsonl.exists():
         raise FileNotFoundError(f"Structured report bundle not found: {reports_jsonl}")
 
-    if not reports_md.exists():
+    if prepared_requests_path is None and not reports_md.exists():
         print(
             f"Warning: markdown bundle not found at {reports_md}; "
             "falling back to JSONL-built structured prompts."
@@ -276,30 +282,59 @@ def main() -> None:
             "Set --api-base-url or LLM_API_BASE_URL / OPENAI_BASE_URL before calling the remote model."
         )
 
-    reports = read_jsonl(reports_jsonl)
-    if args.limit > 0:
-        reports = reports[: args.limit]
-    reports_by_id = {row["report_id"]: row for row in reports}
-    markdown_sections = extract_markdown_sections(reports_md) if reports_md.exists() else {}
-
-    global_context = load_global_context(results_root)
-
     mode = "w" if args.overwrite else "a"
     completed_ids = set() if args.overwrite else load_completed_ids(out_jsonl)
 
     with out_jsonl.open(mode, encoding="utf-8") as fout:
-        for report in reports:
-            report_id = str(report["report_id"])
+        if prepared_requests_path is not None:
+            prepared_rows = read_jsonl(prepared_requests_path)
+            if args.limit > 0:
+                prepared_rows = prepared_rows[: args.limit]
+            iterable = []
+            for row in prepared_rows:
+                iterable.append(
+                    {
+                        "report_id": str(row["report_id"]),
+                        "report_title": row.get("report_title", str(row["report_id"])),
+                        "split": row.get("split", ""),
+                        "system_prompt": row["system_prompt"],
+                        "structured_input": row["input"],
+                        "source_markdown_path": row.get("source_markdown_path", ""),
+                        "source_jsonl_path": row.get("source_reports_jsonl", str(prepared_requests_path)),
+                    }
+                )
+        else:
+            reports = read_jsonl(reports_jsonl)
+            if args.limit > 0:
+                reports = reports[: args.limit]
+            markdown_sections = extract_markdown_sections(reports_md) if reports_md.exists() else {}
+            global_context = load_global_context(results_root)
+            iterable = []
+            for report in reports:
+                report_id = str(report["report_id"])
+                report_markdown = markdown_sections.get(report_id)
+                system_prompt, structured_input = build_training_input(
+                    report=report,
+                    report_markdown=report_markdown,
+                    global_context=global_context,
+                    prompt_model_key=args.prompt_model_key,
+                )
+                iterable.append(
+                    {
+                        "report_id": report_id,
+                        "report_title": report_title(report),
+                        "split": "",
+                        "system_prompt": system_prompt,
+                        "structured_input": structured_input,
+                        "source_markdown_path": str(reports_md) if report_markdown else "",
+                        "source_jsonl_path": str(reports_jsonl),
+                    }
+                )
+
+        for item in iterable:
+            report_id = item["report_id"]
             if report_id in completed_ids:
                 continue
-
-            report_markdown = markdown_sections.get(report_id)
-            system_prompt, structured_input = build_training_input(
-                report=report,
-                report_markdown=report_markdown,
-                global_context=global_context,
-                prompt_model_key=args.prompt_model_key,
-            )
 
             if args.dry_run:
                 llm_output = ""
@@ -308,8 +343,8 @@ def main() -> None:
                     base_url=args.api_base_url,
                     api_key=args.api_key,
                     model=args.model,
-                    system_prompt=system_prompt,
-                    user_prompt=structured_input,
+                    system_prompt=item["system_prompt"],
+                    user_prompt=item["structured_input"],
                     temperature=args.temperature,
                     top_p=args.top_p,
                     max_tokens=args.max_tokens,
@@ -320,13 +355,14 @@ def main() -> None:
 
             record = {
                 "report_id": report_id,
-                "report_title": report_title(report),
+                "report_title": item["report_title"],
+                "split": item["split"],
                 "model": args.model,
-                "input": structured_input,
+                "input": item["structured_input"],
                 "output": llm_output,
-                "system_prompt": system_prompt,
-                "source_markdown_path": str(reports_md) if report_markdown else "",
-                "source_jsonl_path": str(reports_jsonl),
+                "system_prompt": item["system_prompt"],
+                "source_markdown_path": item["source_markdown_path"],
+                "source_jsonl_path": item["source_jsonl_path"],
                 "generated_at_unix": time.time(),
             }
             fout.write(json.dumps(record, ensure_ascii=True) + "\n")

@@ -1,0 +1,94 @@
+Sender: LSF System <lsfadmin@lc06e49>
+Subject: Job 239074533: <ic50_explainable> in cluster <chimera> Done
+
+Job <ic50_explainable> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Tue Apr 21 17:21:47 2026
+Job was executed on host(s) <16*lc06e49>, in queue <premium>, as user <cuiz02> in cluster <chimera> at Tue Apr 21 17:21:51 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Tue Apr 21 17:21:51 2026
+Terminated at Tue Apr 21 17:43:01 2026
+Results reported at Tue Apr 21 17:43:01 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+bash /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/run_ic50_explainable.sh
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   17514.55 sec.
+    Max Memory :                                 8186 MB
+    Average Memory :                             7549.48 MB
+    Total Requested Memory :                     1048576.00 MB
+    Delta Memory :                               1040390.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                25
+    Run time :                                   1270 sec.
+    Turnaround time :                            1274 sec.
+
+The output (if any) follows:
+
+[17:21:51] ROOT=/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy  N_JOBS=16
+[17:21:51] OOF target: results_ic50/oof_predictions.csv
+[17:21:51] === 1. compute_oof_predictions.py ===
+[17:22:18] Loading merged features ...
+  X shape=(181811, 2024)  cell_feats=1000  drug_feats=1024
+[17:22:23] Fold 1/5: train=145,448  test=36,363
+  fold 1 test R² = 0.3842
+[17:26:27] Fold 2/5: train=145,449  test=36,362
+  fold 2 test R² = 0.3805
+[17:30:31] Fold 3/5: train=145,449  test=36,362
+  fold 3 test R² = 0.3752
+[17:34:35] Fold 4/5: train=145,449  test=36,362
+  fold 4 test R² = 0.3794
+[17:38:40] Fold 5/5: train=145,449  test=36,362
+  fold 5 test R² = 0.3795
+[17:42:46] Done. per-fold R²=['0.3842', '0.3805', '0.3752', '0.3794', '0.3795']  overall_oof_r2=0.3798
+Wrote OOF predictions: results_ic50/oof_predictions.csv  (181,811 rows)
+[17:42:47] === 2. select_explainable_cases.py ===
+Loading pairs        : data/processed/pairs_ic50.parquet
+Loading OOF preds    : results_ic50/oof_predictions.csv
+Loading KNN residuals: llm_explainer/knn_residuals_ic50.csv
+Loading per-drug R²  : results_ic50/rf_plots/per_drug_r2.csv
+Loading compound meta: data/CTRPv2/v21.meta.per_compound.txt
+Loading Model.csv    : data/DepMap/Model.csv
+Merged rows: 181,811
+  replicate_std < 0.5: keep 181,090/181,811
+  per_drug_r2 >= 0.2: keep 26,198/181,090
+  has gene_symbol_of_protein_target: keep 22,346/26,198
+  drop 'screening hit' MoA: keep 22,346/22,346
+  OncotreeLineage non-null: keep 22,346/22,346
+Wrote full scored table: llm_explainer/explainable_scored_ic50.csv  (22,346 rows)
+Wrote curated bundle (25 abnormal + 25 normal): llm_explainer/explainable_curated_ic50.csv
+  abnormal_combined: |Δ_model| 3.217–6.009 | |Δ_knn| 2.944–6.100 | combined_score 7.65–14.39
+    top lineages: {'Lymphoid': 2, 'Pancreas': 2, 'Breast': 2, 'Myeloid': 2, 'Esophagus/Stomach': 2, 'Bowel': 2}
+    top drugs   : {'BI-2536': 2, 'topotecan': 2, 'SN-38': 2, 'GSK461364': 2, 'barasertib': 2, 'dabrafenib': 2}
+  normal_combined  : |Δ_model| 0.000–0.047 | |Δ_knn| 0.001–0.052 | combined_score -2.21–-2.15
+    top lineages: {'Bladder/Urinary Tract': 2, 'Skin': 2, 'Lymphoid': 2, 'Esophagus/Stomach': 2, 'Myeloid': 2, 'Lung': 2}
+    top drugs   : {'teniposide': 2, 'PRIMA-1': 2, 'NVP-BSK805': 2, 'PX-12': 2, 'JQ-1': 2, 'olaparib': 2}
+[17:42:57] === 3. build_shap_reports.py (explainable curated 50) ===
+Loading metadata...
+Loading cohort statistics...
+  target_label='log10(IC50)', interpretation_scale=0.5114 (exceptional threshold = 2.56, local threshold = 1.02)
+Loading TreeSHAP export...
+Building / loading fingerprint metadata cache...
+Selecting 181811 SHAP-grounded cases with selection mode `from_csv`...
+Wrote 50 structured SHAP reports to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports_ic50_explainable50.jsonl
+Wrote Markdown summary to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports_ic50_explainable50.md
+[17:43:01] Done. Outputs:
+  results_ic50/oof_predictions.csv  (181812 lines)
+  llm_explainer/explainable_curated_ic50.csv  (51 lines)
+  llm_explainer/explainable_scored_ic50.csv  (22347 lines)
+  llm_explainer/shap_sample_reports_ic50_explainable50.jsonl  (50 lines)
+  llm_explainer/shap_sample_reports_ic50_explainable50.md  (3251 lines)
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/ic50-explainable.239074533.err> for stderr output of this job.
+

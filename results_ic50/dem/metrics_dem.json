@@ -1,0 +1,13 @@
+{
+  "target": "y",
+  "n_samples": 181811,
+  "n_features": 2024,
+  "n_cell_features": 1000,
+  "n_drug_features": 1024,
+  "n_estimators": 100,
+  "max_depth": 10,
+  "seed": 42,
+  "train_r2": 0.4041644500613636,
+  "train_rmse": 1.0263849873348954,
+  "train_corr": 0.6385127183662858
+}

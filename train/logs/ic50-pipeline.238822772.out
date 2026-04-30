@@ -1,0 +1,153 @@
+Sender: LSF System <lsfadmin@lc07e23>
+Subject: Job 238822772: <ic50_rf_pipeline> in cluster <chimera> Done
+
+Job <ic50_rf_pipeline> was submitted from host <lg03a01> by user <cuiz02> in cluster <chimera> at Tue Apr 21 00:57:32 2026
+Job was executed on host(s) <16*lc07e23>, in queue <premium>, as user <cuiz02> in cluster <chimera> at Tue Apr 21 00:57:37 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Tue Apr 21 00:57:37 2026
+Terminated at Tue Apr 21 09:11:09 2026
+Results reported at Tue Apr 21 09:11:09 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+bash /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/train/run_ic50_pipeline.sh
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   388289.00 sec.
+    Max Memory :                                 17406 MB
+    Average Memory :                             7582.31 MB
+    Total Requested Memory :                     1048576.00 MB
+    Delta Memory :                               1031170.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                25
+    Run time :                                   29612 sec.
+    Turnaround time :                            29617 sec.
+
+The output (if any) follows:
+
+[00:57:37] ROOT=/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy
+[00:57:37] PAIRS_FILE=pairs_ic50.csv  RESULTS_ROOT=results_ic50  N_JOBS=16
+[00:57:37] OMP/MKL/OPENBLAS threads pinned to 1 (sklearn n_jobs=16)
+[00:57:37] === 1. tune_max_depth.py ===
+Loading data...
+X: (181811, 2024), y: (181811,)
+  1/20: max_depth=1
+  2/20: max_depth=2
+  3/20: max_depth=3
+  4/20: max_depth=4
+  5/20: max_depth=5
+  6/20: max_depth=6
+  7/20: max_depth=7
+  8/20: max_depth=8
+  9/20: max_depth=9
+  10/20: max_depth=10
+  11/20: max_depth=11
+  12/20: max_depth=12
+  13/20: max_depth=13
+  14/20: max_depth=14
+  15/20: max_depth=15
+  16/20: max_depth=16
+  17/20: max_depth=17
+  18/20: max_depth=18
+  19/20: max_depth=19
+  20/20: max_depth=20
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/tuning/tuning_results_max_depth.csv
+Best: max_depth=20, test R²=0.5459
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/tuning/tuning_r2_vs_max_depth.png
+Done.
+[02:32:13] === 2. tune_n_estimators.py ===
+Loading data...
+X: (181811, 2024), y: (181811,)
+  1/11: n_estimators=10
+  2/11: n_estimators=35
+  3/11: n_estimators=60
+  4/11: n_estimators=85
+  5/11: n_estimators=110
+  6/11: n_estimators=135
+  7/11: n_estimators=160
+  8/11: n_estimators=185
+  9/11: n_estimators=210
+  10/11: n_estimators=235
+  11/11: n_estimators=250
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/tuning/tuning_results_n_estimators.csv
+Best: n_estimators=235, mean R²=0.3803
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/tuning/tuning_r2_vs_n_estimators.png
+Done.
+[07:13:07] === 3. top_fingerprints.py (SHAP export) ===
+Loading data...
+X: (181811, 2024), y: (181811,)
+Fitting RF on full data for feature importances and SHAP...
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/tuning/fingerprint_importances.csv
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/tuning/top_fingerprint_features.png
+Computing SHAP values...
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/tuning/shap_values.parquet
+Done.
+[08:12:53] === 4. generate_top_feature.py (per-drug R² + gene signature counts) ===
+Loading pairs and cell features...
+Drugs with >= 20 samples: 440
+  Processing drug 1/440 (master_cpd_id=606142)
+  Processing drug 100/440 (master_cpd_id=660075)
+  Processing drug 200/440 (master_cpd_id=609091)
+  Processing drug 300/440 (master_cpd_id=628620)
+  Processing drug 400/440 (master_cpd_id=635882)
+Saved per-drug R²: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/rf_plots/per_drug_r2.csv
+Saved gene signature counts: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/rf_plots/gene_signature_counts.csv
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/rf_plots/top_drugs_by_r2.png
+Saved: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/rf_plots/top_genes_across_drugs.png
+Done.
+[09:04:38] === 5. export_dem_model.py (DEM forest + leaves) ===
+Loading merged training data...
+Loaded X=(181811, 2024), y=(181811,) (cell features=1000, drug features=1024)
+Fitting DEM random forest on full dataset...
+Scoring fitted model...
+Computing per-sample leaf assignments...
+Computing per-tree OOB weights...
+  Tree weight stats: mean=1.0000, std=0.0313, min=0.9289, max=1.0740
+Computing leaf depth matrix...
+  Max tree depths: min=10, max=10, mean=10.0
+Saving model to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/dem_model.pkl...
+Saving leaves to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/leaf_assignments.parquet...
+Saving kernel metadata to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/kernel_meta.npz...
+Saving metrics to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/metrics_dem.json...
+Done.
+Model:       /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/dem_model.pkl
+Leaves:      /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/leaf_assignments.parquet
+Kernel meta: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/kernel_meta.npz
+Metrics:     /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/metrics_dem.json
+[09:10:56] === 6. build_evidence.py (kernel neighborhoods) ===
+Loading merged features and metadata...
+Loading leaf assignments...
+Selected 10 query samples.
+Loading kernel metadata from /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/kernel_meta.npz...
+  Using tree weights (mean=1.0000) and depth-aware kernel (max depths 10–10)
+Computing top-k kernel neighbors...
+Writing evidence to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/evidence.jsonl ...
+Done.
+Evidence file: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/evidence.jsonl
+[09:11:05] === 7. report_generator.py (enriched JSONL + MD) ===
+Loading compound metadata...
+  481 compounds loaded.
+Loading cell line metadata...
+  835 cell lines loaded.
+Decoding Morgan fingerprint bits from SMILES...
+  1023 fingerprint bits decoded.
+Loading evidence...
+Generating 5 reports from 10 evidence entries...
+Wrote: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/sample_reports.md
+Wrote: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50/dem/sample_reports.jsonl
+[09:11:09] Done.
+Artifacts under: results_ic50
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/train/logs/ic50-pipeline.238822772.err> for stderr output of this job.
+

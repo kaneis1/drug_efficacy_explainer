@@ -1,0 +1,94 @@
+Sender: LSF System <lsfadmin@lc06e66>
+Subject: Job 239060884: <ic50_followup> in cluster <chimera> Done
+
+Job <ic50_followup> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Tue Apr 21 11:53:46 2026
+Job was executed on host(s) <16*lc06e66>, in queue <premium>, as user <cuiz02> in cluster <chimera> at Tue Apr 21 11:53:51 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Tue Apr 21 11:53:51 2026
+Terminated at Tue Apr 21 12:30:58 2026
+Results reported at Tue Apr 21 12:30:58 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+bash /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/run_ic50_followup.sh
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2204.05 sec.
+    Max Memory :                                 9060 MB
+    Average Memory :                             7102.51 MB
+    Total Requested Memory :                     1048576.00 MB
+    Delta Memory :                               1039516.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                9
+    Run time :                                   2227 sec.
+    Turnaround time :                            2232 sec.
+
+The output (if any) follows:
+
+[11:53:51] ROOT=/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy
+[11:53:51] SHAP_VALUES=results_ic50/tuning/shap_values.parquet
+[11:53:51] PER_DRUG_R2=results_ic50/rf_plots/per_drug_r2.csv
+[11:53:51] PAIRS=data/processed/pairs_ic50.csv
+[11:53:51] === 1. select_knn_cases.py (k=20) ===
+[11:53:53] Loading features via train.load_data.load_merged ...
+  X shape=(181811, 2024)  |  cell_feats=1000  drug_feats=1024
+[11:53:59] Standardising features (z-score) ...
+  standardised dtype=float32
+[11:54:04] Fitting NearestNeighbors(k=20, metric=euclidean, algorithm=brute, n_jobs=16) ...
+[11:54:09] Fit complete. Starting batched kneighbors() ...
+[11:54:09] Querying k-NN in batches of 4096 (45 batches) ...
+  [11:54:58]     4096/181811  (  2.3% | elapsed   0.8m | eta  35.6m)
+  [11:59:05]    24576/181811  ( 13.5% | elapsed   4.9m | eta  31.5m)
+  [12:03:11]    45056/181811  ( 24.8% | elapsed   9.0m | eta  27.4m)
+  [12:07:18]    65536/181811  ( 36.0% | elapsed  13.2m | eta  23.3m)
+  [12:11:25]    86016/181811  ( 47.3% | elapsed  17.3m | eta  19.2m)
+  [12:15:32]   106496/181811  ( 58.6% | elapsed  21.4m | eta  15.1m)
+  [12:19:38]   126976/181811  ( 69.8% | elapsed  25.5m | eta  11.0m)
+  [12:23:45]   147456/181811  ( 81.1% | elapsed  29.6m | eta   6.9m)
+  [12:27:52]   167936/181811  ( 92.4% | elapsed  33.7m | eta   2.8m)
+  [12:30:40]   181811/181811  (100.0% | elapsed  36.5m | eta   0.0m)
+Wrote full residual table: llm_explainer/knn_residuals_ic50.csv
+Wrote curated bundle (25 outliers + 25 normals): llm_explainer/knn_curated_ic50.csv
+
+abs_residual stats over all samples:
+  n=181811  mean=0.792  std=0.774
+  q25=0.248  q50=0.557  q75=1.067
+  q95=2.418  q99=3.604  max=6.781
+Outliers  |Δ| range: 5.431 — 6.781
+Normals   |Δ| range: 0.0000 — 0.0002
+[12:30:41] === 2. build_shap_reports.py (full diverse bundle) ===
+Loading metadata...
+Loading cohort statistics...
+  target_label='log10(IC50)', interpretation_scale=0.5114 (exceptional threshold = 2.56, local threshold = 1.02)
+Loading TreeSHAP export...
+Building / loading fingerprint metadata cache...
+Selecting 25 SHAP-grounded cases with selection mode `diverse`...
+Wrote 25 structured SHAP reports to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports_ic50.jsonl
+Wrote Markdown summary to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports_ic50.md
+[12:30:54] === 3. build_shap_reports.py (KNN-curated 50 cases) ===
+Loading metadata...
+Loading cohort statistics...
+  target_label='log10(IC50)', interpretation_scale=0.5114 (exceptional threshold = 2.56, local threshold = 1.02)
+Loading TreeSHAP export...
+Building / loading fingerprint metadata cache...
+Selecting 181811 SHAP-grounded cases with selection mode `from_csv`...
+Wrote 50 structured SHAP reports to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports_ic50_knn50.jsonl
+Wrote Markdown summary to /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports_ic50_knn50.md
+[12:30:58] Follow-up done. Summary:
+  llm_explainer/knn_curated_ic50.csv  (51 lines)
+  llm_explainer/shap_sample_reports_ic50.jsonl  (25 lines)
+  llm_explainer/shap_sample_reports_ic50_knn50.jsonl  (50 lines)
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/ic50-followup.239060884.err> for stderr output of this job.
+

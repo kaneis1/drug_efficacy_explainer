@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg07c09>
+Subject: Job 237495173: <llmexp_teacher70b_test> in cluster <chimera> Done
+
+Job <llmexp_teacher70b_test> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Thu Apr 16 14:00:15 2026
+Job was executed on host(s) <20*lg07c09>, in queue <gpu>, as user <cuiz02> in cluster <chimera> at Thu Apr 16 14:00:15 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Thu Apr 16 14:00:15 2026
+Terminated at Thu Apr 16 14:53:46 2026
+Results reported at Thu Apr 16 14:53:46 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_teacher_pairs_local.py --requests-jsonl /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/sft_experiment_500/teacher_requests/test.jsonl --teacher-model-key Llama-3.3-70B-Instruct --out-dir /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/sft_experiment_500/teacher_pairs_test_quick --overwrite
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   3309.00 sec.
+    Max Memory :                                 1987 MB
+    Average Memory :                             1830.52 MB
+    Total Requested Memory :                     1310720.00 MB
+    Delta Memory :                               1308733.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                17
+    Run time :                                   3211 sec.
+    Turnaround time :                            3211 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/teacher-test.237495173.err> for stderr output of this job.
+

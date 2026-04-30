@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/train/tune_max_depth.py", line 101, in <module>
+    main()
+  File "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/train/tune_max_depth.py", line 69, in main
+    model.fit(X_tr, y_tr)
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/sklearn/base.py", line 1365, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/sklearn/ensemble/_forest.py", line 486, in fit
+    trees = Parallel(
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/sklearn/utils/parallel.py", line 82, in __call__
+    return super().__call__(iterable_with_config_and_warning_filters)
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/joblib/parallel.py", line 2072, in __call__
+    return output if self.return_generator else list(output)
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/joblib/parallel.py", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/joblib/parallel.py", line 1800, in _retrieve
+    time.sleep(0.01)
+KeyboardInterrupt

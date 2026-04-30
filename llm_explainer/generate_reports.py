@@ -90,6 +90,31 @@ MODEL_REGISTRY: dict[str, dict[str, Any]] = {
             "context_margin": 32,
         },
     },
+    "Llama-3.3-70B-Instruct": {
+        "path": "/sc/arion/scratch/cuiz02/hf_cache/transformers/models--meta-llama--Llama-3.3-70B-Instruct",
+        "gpu_mem": "70G",
+        "host_mem": "256G",
+        "wall_minutes": 720,
+        "style": "chat",
+        "load_strategy": "auto",
+        "context_window": 131072,
+        "prompt_profile": {
+            "feature_limit": 6,
+            "neighbor_limit": 5,
+            "fingerprint_limit": 8,
+            "gene_limit": 8,
+            "include_feature_smarts": True,
+            "include_feature_examples": True,
+            "word_limit": 550,
+        },
+        "generation": {
+            "max_new_tokens": 650,
+            "temperature": 0.1,
+            "top_p": 0.9,
+            "repetition_penalty": 1.02,
+            "context_margin": 32,
+        },
+    },
     "Qwen2.5-32B-Instruct": {
         "path": "/sc/arion/scratch/cuiz02/hf_cache/transformers/Qwen2.5-32B-Instruct",
         "gpu_mem": "70G",
@@ -177,6 +202,21 @@ def parse_args() -> argparse.Namespace:
         help="Input structured reports JSONL.",
     )
     parser.add_argument(
+        "--model-path",
+        default="",
+        help="Optional local checkpoint path override for the base model weights.",
+    )
+    parser.add_argument(
+        "--tokenizer-path",
+        default="",
+        help="Optional local tokenizer path override. Defaults to --model-path or the registry path.",
+    )
+    parser.add_argument(
+        "--adapter-path",
+        default="",
+        help="Optional PEFT adapter path for evaluating an SFT/LoRA checkpoint on top of the base model.",
+    )
+    parser.add_argument(
         "--results-root",
         default="results",
         help="Root folder that contains dem/, tuning/, and rf_plots/.",
@@ -185,6 +225,16 @@ def parse_args() -> argparse.Namespace:
         "--output-root",
         default="llm_explainer/outputs",
         help="Where per-model outputs are written.",
+    )
+    parser.add_argument(
+        "--output-subdir",
+        default="",
+        help="Optional output subdirectory name under --output-root.",
+    )
+    parser.add_argument(
+        "--run-label",
+        default="",
+        help="Optional display label for markdown and metadata. Defaults to the model key or adapter-specific label.",
     )
     parser.add_argument(
         "--max-reports",
@@ -225,6 +275,32 @@ def parse_args() -> argparse.Namespace:
 
 def slugify(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9]+", "-", value).strip("-").lower()
+
+
+def resolve_local_model_path(path: Path) -> Path:
+    resolved = path.resolve()
+    if any(
+        (resolved / filename).exists()
+        for filename in ("config.json", "tokenizer_config.json", "generation_config.json")
+    ):
+        return resolved
+
+    snapshots_dir = resolved / "snapshots"
+    refs_main = resolved / "refs" / "main"
+    if not snapshots_dir.exists():
+        return resolved
+
+    if refs_main.exists():
+        snapshot_name = refs_main.read_text(encoding="utf-8").strip()
+        if snapshot_name:
+            candidate = snapshots_dir / snapshot_name
+            if candidate.exists():
+                return candidate
+
+    candidates = sorted(path for path in snapshots_dir.iterdir() if path.is_dir())
+    if candidates:
+        return candidates[-1]
+    return resolved
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -296,6 +372,13 @@ def report_title(report: dict[str, Any]) -> str:
     drug_name = report.get("drug", {}).get("name", "unknown drug")
     cell_name = report.get("cell_line", {}).get("name", "unknown cell line")
     return f"{report.get('report_id', 'RPT-UNK')} - {drug_name} on {cell_name}"
+
+
+def _target_key(report: dict[str, Any]) -> str:
+    """Pick a short, filename-safe slug for the target (e.g. 'auc', 'log10_ic50')."""
+    label = str(report.get("target_label") or "AUC").strip()
+    slug = re.sub(r"[^a-z0-9]+", "_", label.lower()).strip("_")
+    return slug or "auc"
 
 
 def compact_dem_feature_lines(
@@ -542,17 +625,18 @@ def build_user_prompt(report: dict[str, Any], context: GlobalContext, model_key:
                 f"- tissue: {cell.get('tissue', 'n/a')}",
                 f"- histology: {cell.get('histology', 'n/a')}",
                 f"- subtype: {subtype}",
-                f"- observed_auc: {report.get('query_y_true', 0):.4f}",
-                f"- model_predicted_auc: {report.get('model_predicted_auc', 0):.4f}",
+                f"- target_label: {report.get('target_label', 'AUC')}",
+                f"- observed_{_target_key(report)}: {report.get('query_y_true', 0):.4f}",
+                f"- model_predicted_{_target_key(report)}: {report.get('model_predicted_auc', 0):.4f}",
                 f"- prediction_error: {report.get('prediction_error', 0):+.4f}",
                 f"- abs_error: {report.get('abs_error', 0):.4f}",
-                f"- global_mean_auc: {report.get('global_mean_auc', 0):.4f}",
+                f"- global_mean_{_target_key(report)}: {report.get('global_mean_auc', 0):.4f}",
                 f"- interpretation: {report.get('interpretation', 'n/a')}",
                 f"- selection_reason: {report.get('selection_reason', 'n/a')}",
                 "",
                 "Drug cohort context:",
                 (
-                    f"- n={drug_cohort.get('n', 'n/a')} | mean_auc={float(drug_cohort.get('mean_auc', 0.0)):.4f} | "
+                    f"- n={drug_cohort.get('n', 'n/a')} | mean_{_target_key(report)}={float(drug_cohort.get('mean_auc', 0.0)):.4f} | "
                     f"q10={float(drug_cohort.get('q10_auc', 0.0)):.4f} | "
                     f"median={float(drug_cohort.get('q50_auc', 0.0)):.4f} | "
                     f"q90={float(drug_cohort.get('q90_auc', 0.0)):.4f} | "
@@ -560,7 +644,7 @@ def build_user_prompt(report: dict[str, Any], context: GlobalContext, model_key:
                 ),
                 "Cell cohort context:",
                 (
-                    f"- n={cell_cohort.get('n', 'n/a')} | mean_auc={float(cell_cohort.get('mean_auc', 0.0)):.4f} | "
+                    f"- n={cell_cohort.get('n', 'n/a')} | mean_{_target_key(report)}={float(cell_cohort.get('mean_auc', 0.0)):.4f} | "
                     f"q10={float(cell_cohort.get('q10_auc', 0.0)):.4f} | "
                     f"median={float(cell_cohort.get('q50_auc', 0.0)):.4f} | "
                     f"q90={float(cell_cohort.get('q90_auc', 0.0)):.4f} | "
@@ -783,8 +867,8 @@ def resolve_model_load_kwargs(spec: dict[str, Any], dtype: Any, torch_module) ->
     return kwargs
 
 
-def build_run_markdown(model_key: str, records: list[dict[str, Any]]) -> str:
-    lines = [f"# Generated Reports - {model_key}", ""]
+def build_run_markdown(run_label: str, records: list[dict[str, Any]]) -> str:
+    lines = [f"# Generated Reports - {run_label}", ""]
     for rec in records:
         lines.append(f"## {rec['report_title']}")
         lines.append(f"_Source evidence: {rec['evidence_id']}_")
@@ -796,6 +880,55 @@ def build_run_markdown(model_key: str, records: list[dict[str, Any]]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def resolve_paths_and_labels(args: argparse.Namespace, spec: dict[str, Any]) -> tuple[Path, Path, Path | None, str, str]:
+    raw_model_path = Path(args.model_path).resolve() if args.model_path else Path(spec["path"]).resolve()
+    raw_tokenizer_path = Path(args.tokenizer_path).resolve() if args.tokenizer_path else raw_model_path
+    base_model_path = resolve_local_model_path(raw_model_path)
+    tokenizer_path = resolve_local_model_path(raw_tokenizer_path)
+    adapter_path = Path(args.adapter_path).resolve() if args.adapter_path else None
+
+    if args.run_label:
+        run_label = args.run_label
+    elif adapter_path is not None:
+        run_label = f"{args.model_key} + {adapter_path.name}"
+    elif args.model_path:
+        run_label = f"{args.model_key} ({base_model_path.name})"
+    else:
+        run_label = args.model_key
+
+    output_subdir = args.output_subdir or slugify(run_label)
+    return base_model_path, tokenizer_path, adapter_path, run_label, output_subdir
+
+
+def load_model_for_generation(
+    *,
+    AutoModelForCausalLM,
+    base_model_path: Path,
+    adapter_path: Path | None,
+    spec: dict[str, Any],
+    dtype: Any,
+    torch_module,
+):
+    model = AutoModelForCausalLM.from_pretrained(
+        base_model_path,
+        **resolve_model_load_kwargs(spec, dtype, torch_module),
+    )
+    if adapter_path is None:
+        return model
+
+    try:
+        from peft import PeftModel
+    except ImportError as exc:  # pragma: no cover - environment dependent
+        raise RuntimeError(
+            "PEFT is required to load --adapter-path. Install `peft` in the runtime first."
+        ) from exc
+
+    model = PeftModel.from_pretrained(model, adapter_path, is_trainable=False)
+    if hasattr(model, "eval"):
+        model.eval()
+    return model
+
+
 def main() -> None:
     args = parse_args()
 
@@ -804,10 +937,12 @@ def main() -> None:
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
     spec = MODEL_REGISTRY[args.model_key]
-    model_path = Path(spec["path"]).resolve()
+    model_path, tokenizer_path, adapter_path, run_label, output_subdir = resolve_paths_and_labels(
+        args, spec
+    )
     reports_path = Path(args.reports).resolve()
     results_root = Path(args.results_root).resolve()
-    output_dir = Path(args.output_root).resolve() / slugify(args.model_key)
+    output_dir = Path(args.output_root).resolve() / output_subdir
     prompts_dir = output_dir / "prompts"
 
     ensure_output_dir(output_dir, overwrite=args.overwrite)
@@ -821,7 +956,10 @@ def main() -> None:
 
     run_meta: dict[str, Any] = {
         "model_key": args.model_key,
+        "run_label": run_label,
         "model_path": str(model_path),
+        "tokenizer_path": str(tokenizer_path),
+        "adapter_path": str(adapter_path) if adapter_path is not None else "",
         "reports_path": str(reports_path),
         "results_root": str(results_root),
         "max_reports": len(reports),
@@ -839,11 +977,11 @@ def main() -> None:
 
     AutoModelForCausalLM, AutoTokenizer = load_transformers()
     tokenizer = AutoTokenizer.from_pretrained(
-        model_path,
+        tokenizer_path,
         local_files_only=True,
         trust_remote_code=True,
     )
-    configure_tokenizer(tokenizer, model_path)
+    configure_tokenizer(tokenizer, tokenizer_path)
 
     prompt_payloads: list[dict[str, Any]] = []
     for report in reports:
@@ -896,7 +1034,7 @@ def main() -> None:
             encoding="utf-8",
         )
         (output_dir / "reports.md").write_text(
-            build_run_markdown(args.model_key, dryrun_records),
+            build_run_markdown(run_label, dryrun_records),
             encoding="utf-8",
         )
         run_meta["finished_at_unix"] = time.time()
@@ -908,9 +1046,13 @@ def main() -> None:
         return
 
     dtype = resolve_dtype(torch)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_path,
-        **resolve_model_load_kwargs(spec, dtype, torch),
+    model = load_model_for_generation(
+        AutoModelForCausalLM=AutoModelForCausalLM,
+        base_model_path=model_path,
+        adapter_path=adapter_path,
+        spec=spec,
+        dtype=dtype,
+        torch_module=torch,
     )
 
     run_meta["torch_version"] = torch.__version__
@@ -989,7 +1131,9 @@ def main() -> None:
                 "evidence_id": payload["evidence_id"],
                 "report_title": payload["title"],
                 "model_key": args.model_key,
+                "run_label": run_label,
                 "model_path": str(model_path),
+                "adapter_path": str(adapter_path) if adapter_path is not None else "",
                 "report_markdown": report_markdown,
                 "raw_output": raw_output,
                 "used_chat_payload": payload["used_chat_payload"],
@@ -1002,7 +1146,7 @@ def main() -> None:
             records.append(record)
 
     markdown_path = output_dir / "reports.md"
-    markdown_path.write_text(build_run_markdown(args.model_key, records), encoding="utf-8")
+    markdown_path.write_text(build_run_markdown(run_label, records), encoding="utf-8")
 
     run_meta["finished_at_unix"] = time.time()
     run_meta["status"] = "completed"

@@ -1,0 +1,6 @@
+[11:06:34] ROOT=/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy
+[11:06:34] SHAP_VALUES=results_ic50/tuning/shap_values.parquet
+[11:06:34] PER_DRUG_R2=results_ic50/rf_plots/per_drug_r2.csv
+[11:06:34] PAIRS=data/processed/pairs_ic50.csv
+[11:06:34] === 1. select_knn_cases.py (k=20) ===
+Terminated

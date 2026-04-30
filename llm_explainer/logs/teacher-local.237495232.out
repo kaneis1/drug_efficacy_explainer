@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg07c10>
+Subject: Job 237495232: <llmexp_teacher70b> in cluster <chimera> Done
+
+Job <llmexp_teacher70b> was submitted from host <lc06e71> by user <cuiz02> in cluster <chimera> at Thu Apr 16 14:17:47 2026
+Job was executed on host(s) <20*lg07c10>, in queue <gpu>, as user <cuiz02> in cluster <chimera> at Thu Apr 16 14:20:36 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Thu Apr 16 14:20:36 2026
+Terminated at Thu Apr 16 22:46:38 2026
+Results reported at Thu Apr 16 22:46:38 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_teacher_pairs_local.py --experiment-dir /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/sft_experiment_500 --teacher-model-key Llama-3.3-70B-Instruct --out-dir /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/sft_experiment_500/teacher_pairs_local --max-reports-per-split 0 --overwrite
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   30416.00 sec.
+    Max Memory :                                 2047 MB
+    Average Memory :                             1774.13 MB
+    Total Requested Memory :                     1310720.00 MB
+    Delta Memory :                               1308673.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                17
+    Run time :                                   30362 sec.
+    Turnaround time :                            30531 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/teacher-local.237495232.err> for stderr output of this job.
+

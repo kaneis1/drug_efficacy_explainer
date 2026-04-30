@@ -1,0 +1,18 @@
+{
+  "source_reports_jsonl": "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_teacher_500.jsonl",
+  "results_root": "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results",
+  "teacher_model": "models--meta-llama--Llama-3.3-70B-Instruct",
+  "prompt_model_key": "Meta-Llama-3.1-8B-Instruct",
+  "prompt_style": "short_rpt",
+  "seed": 13,
+  "fractions": {
+    "train": 0.8,
+    "val": 0.1,
+    "test": 0.1
+  },
+  "counts": {
+    "train": 400,
+    "val": 51,
+    "test": 49
+  }
+}

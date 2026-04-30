@@ -1,0 +1,17 @@
+{
+  "split": "train",
+  "teacher_model_key": "Llama-3.3-70B-Instruct",
+  "teacher_model_path": "/sc/arion/scratch/cuiz02/hf_cache/transformers/models--meta-llama--Llama-3.3-70B-Instruct/snapshots/6f6073b423013f6a7d4d9f39144961bfbfbc386b",
+  "request_path": "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/sft_experiment_500/teacher_requests/train.jsonl",
+  "n_requests": 400,
+  "n_completed": 400,
+  "generation_settings": {
+    "max_new_tokens": 650,
+    "temperature": 0.1,
+    "top_p": 0.9,
+    "repetition_penalty": 1.02,
+    "no_repeat_ngram_size": 0,
+    "context_margin": 32
+  },
+  "dry_run": false
+}

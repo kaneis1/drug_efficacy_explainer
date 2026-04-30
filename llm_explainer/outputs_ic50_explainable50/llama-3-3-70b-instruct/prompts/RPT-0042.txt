@@ -1,0 +1,95 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0042 - teniposide on FUOV1
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of teniposide on FUOV1 using observed log10(IC50), the RF-predicted log10(IC50), and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher log10(IC50)/resistance or lower log10(IC50)/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0042
+- evidence_id: SHAP-0042
+- drug_name: teniposide
+- drug_id: 27871
+- gene_target: TOP2A;TOP2B
+- mechanism: inhibitor of topoisomerase II
+- per_drug_cv_r2: 0.3841077422031117
+- cell_line: FUOV1
+- tissue: ovary
+- histology: carcinoma
+- subtype: serous carcinoma
+- target_label: log10(IC50)
+- observed_log10_ic50: 0.0211
+- model_predicted_log10_ic50: -0.0472
+- prediction_error: +0.0683
+- abs_error: 0.0683
+- global_mean_log10_ic50: 0.6392
+- interpretation: close to the model prediction and cohort baselines
+- selection_reason: LLM-explainable normal: observed log10(IC50)=+0.021, RF OOF predicted -0.020 (Δ_model=+0.041), 20-NN mean=+0.023 (Δ_knn=-0.001). Drug target: TOP2A;TOP2B. Cell lineage: Ovary/Fallopian Tube / Ovarian Epithelial Tumor. Per-drug R² on held-out cells = 0.38.
+
+Drug cohort context:
+- n=376 | mean_log10_ic50=-0.3665 | q10=-1.9076 | median=-0.1279 | q90=0.9344 | sample_percentile=56.4
+Cell cohort context:
+- n=166 | mean_log10_ic50=0.7136 | q10=-0.8373 | median=0.8684 | q90=1.9968 | sample_percentile=24.1
+
+Top TreeSHAP features:
+1. fp_0141 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.7254 | abs_shap=0.7254 | value=1.0000 | pct_drugs=1.5 | SMARTS=[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7] | example_drugs=dexamethasone, austocystin D, daporinad | note=representative SMARTS `[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7]`; present in 1.5% of CTRPv2 compounds; example compounds: dexamethasone, austocystin D, daporinad
+2. fp_0535 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.1617 | abs_shap=0.1617 | value=0.0000 | pct_drugs=1.7 | SMARTS=[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6] | example_drugs=BRD4132, BRD6340, parbendazole | note=representative SMARTS `[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6]`; present in 1.7% of CTRPv2 compounds; example compounds: BRD4132, BRD6340, parbendazole
+3. fp_0994 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.1205 | abs_shap=0.1205 | value=1.0000 | pct_drugs=2.3 | SMARTS=[#7]-[#6](:[#6]):[#6] | example_drugs=NSC23766, compound 1B, BRD-K92856060 | note=representative SMARTS `[#7]-[#6](:[#6]):[#6]`; present in 2.3% of CTRPv2 compounds; example compounds: NSC23766, compound 1B, BRD-K92856060
+4. fp_0423 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0757 | abs_shap=0.0757 | value=1.0000 | pct_drugs=3.1 | SMARTS=[#6]-[#6](:[#6]:[#6]:[#6]):[#6] | example_drugs=chlorambucil, CIL70, axitinib | note=representative SMARTS `[#6]-[#6](:[#6]:[#6]:[#6]):[#6]`; present in 3.1% of CTRPv2 compounds; example compounds: chlorambucil, CIL70, axitinib
+5. fp_0876 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0587 | abs_shap=0.0587 | value=0.0000 | pct_drugs=1.5 | SMARTS=[#6]:[#6]:[#6]:[#6](:[#16])-[#7+] | example_drugs=triptolide, cucurbitacin I, NPC-26 | note=representative SMARTS `[#6]:[#6]:[#6]:[#6](:[#16])-[#7+]`; present in 1.5% of CTRPv2 compounds; example compounds: triptolide, cucurbitacin I, NPC-26
+6. fp_0110 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0558 | abs_shap=0.0558 | value=1.0000 | pct_drugs=1.7 | SMARTS=[#6]:[#6](:[#6])-[#6](-[#7])=[#8] | example_drugs=SNX-2112, TPCA-1, BRD-K66453893 | note=representative SMARTS `[#6]:[#6](:[#6])-[#6](-[#7])=[#8]`; present in 1.7% of CTRPv2 compounds; example compounds: SNX-2112, TPCA-1, BRD-K66453893
+
+Same-drug cohort examples:
+1. cell=KARPAS620 | tissue=haematopoietic and lymphoid tissue | auc=-3.9599 | profile=more sensitive
+2. cell=SNU878 | tissue=liver | auc=-3.7618 | profile=more sensitive
+3. cell=TUHR10TKB | tissue=kidney | auc=1.6704 | profile=more resistant
+4. cell=KPL1 | tissue=breast | auc=2.1283 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=leptomycin B | target=XPO1 | auc=-3.4044 | profile=more sensitive
+2. drug=ouabain | target=ATP1A1;ATP1A2;ATP1A3;ATP1A4;ATP1B1;ATP1B2;ATP1B3;ATP1B4 | auc=-3.2098 | profile=more sensitive
+3. drug=temozolomide | target=n/a | auc=3.5642 | profile=more resistant
+4. drug=procarbazine | target=n/a | auc=3.9405 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=181811, n_features=2024, train_r2=0.4042, train_rmse=1.0264, train_corr=0.6385. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.5459.
+- N-estimator tuning best row: max_depth=10, n_estimators=235, mean_r2=0.3803, std_r2=0.0031.
+- Top global fingerprint features: fp_0141 (0.11630), fp_0513 (0.04974), fp_0535 (0.03781), fp_0017 (0.03749), fp_0723 (0.03716), fp_0071 (0.03714), fp_0777 (0.03127), fp_0518 (0.02657).
+- Most common genes across predictable per-drug models: MYOF (26509) (92 drugs), TNFRSF12A (51330) (82 drugs), SDC4 (6385) (74 drugs), CCN1 (3491) (71 drugs), PRSS23 (11098) (69 drugs), WWTR1 (25937) (61 drugs), LAMB2 (3913) (60 drugs), GPX8 (493869) (59 drugs).
+- Per-drug cross-validated predictability for teniposide: R2=0.3841.
+- Cell subtype metadata is available: serous carcinoma.
+
+Write one grounded markdown report with the required section headings.

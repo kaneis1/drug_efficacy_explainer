@@ -1,0 +1,95 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0031 - NVP-BSK805 on FU97
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of NVP-BSK805 on FU97 using observed log10(IC50), the RF-predicted log10(IC50), and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher log10(IC50)/resistance or lower log10(IC50)/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0031
+- evidence_id: SHAP-0031
+- drug_name: NVP-BSK805
+- drug_id: 660434
+- gene_target: JAK2
+- mechanism: inhibitor of Janus kinase 2
+- per_drug_cv_r2: 0.2469054415003102
+- cell_line: FU97
+- tissue: stomach
+- histology: carcinoma
+- subtype: diffuse adenocarcinoma
+- target_label: log10(IC50)
+- observed_log10_ic50: 0.6578
+- model_predicted_log10_ic50: 0.6386
+- prediction_error: +0.0192
+- abs_error: 0.0192
+- global_mean_log10_ic50: 0.6392
+- interpretation: close to the model prediction and cohort baselines
+- selection_reason: LLM-explainable normal: observed log10(IC50)=+0.658, RF OOF predicted +0.675 (Δ_model=-0.017), 20-NN mean=+0.650 (Δ_knn=+0.008). Drug target: JAK2. Cell lineage: Esophagus/Stomach / Esophagogastric Adenocarcinoma. Per-drug R² on held-out cells = 0.25.
+
+Drug cohort context:
+- n=765 | mean_log10_ic50=1.0644 | q10=0.6348 | median=1.0904 | q90=1.4828 | sample_percentile=13.1
+Cell cohort context:
+- n=196 | mean_log10_ic50=0.4157 | q10=-1.5033 | median=0.6396 | q90=1.7319 | sample_percentile=51.5
+
+Top TreeSHAP features:
+1. CCN1 (3491) | type=gene_expression | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.2377 | abs_shap=0.2377 | value=2.3784 | z=-0.94 | supporting_drugs=71 | note=near the cross-cell-line mean; recurs in 71 predictable-drug RF signatures
+2. fp_0017 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.1367 | abs_shap=0.1367 | value=0.0000 | pct_drugs=2.3 | SMARTS=[#8]-[#6@](-[#6@@H])(-[#6])-[#6@@](-[#8]-[#6])(-[#6@@H](-[#6@@H])-[#6])-[#6](:[#6]):[#6] | example_drugs=bexarotene, SR-II-138A, CR-1-31B | note=representative SMARTS `[#8]-[#6@](-[#6@@H])(-[#6])-[#6@@](-[#8]-[#6])(-[#6@@H](-[#6@@H])-[#6])-[#6](:[#6]):[#6]`; present in 2.3% of CTRPv2 compounds; example compounds: bexarotene, SR-II-138A, CR-1-31B
+3. fp_0673 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0823 | abs_shap=0.0823 | value=1.0000 | pct_drugs=17.5 | SMARTS=[#6]:[#6]:[#6]:[#6](:[#6])-[#6] | example_drugs=tamoxifen, procarbazine, methotrexate | note=representative SMARTS `[#6]:[#6]:[#6]:[#6](:[#6])-[#6]`; present in 17.5% of CTRPv2 compounds; example compounds: tamoxifen, procarbazine, methotrexate
+4. fp_0538 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0409 | abs_shap=0.0409 | value=1.0000 | pct_drugs=0.6 | SMARTS=[#6]-[#6](:[#6]):[#6]:[#7](:[#7])-[#6] | example_drugs=NSC19630, crizotinib, NVP-BSK805 | note=representative SMARTS `[#6]-[#6](:[#6]):[#6]:[#7](:[#7])-[#6]`; present in 0.6% of CTRPv2 compounds; example compounds: NSC19630, crizotinib, NVP-BSK805
+5. fp_0535 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0177 | abs_shap=0.0177 | value=0.0000 | pct_drugs=1.7 | SMARTS=[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6] | example_drugs=BRD4132, BRD6340, parbendazole | note=representative SMARTS `[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6]`; present in 1.7% of CTRPv2 compounds; example compounds: BRD4132, BRD6340, parbendazole
+6. fp_0513 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0172 | abs_shap=0.0172 | value=0.0000 | pct_drugs=0.8 | SMARTS=[#8]-[#6](:[#6]):[#6]:[#6](:[#6])-[#8] | example_drugs=epigallocatechin-3-monogallate, CAY10594, avrainvillamide | note=representative SMARTS `[#8]-[#6](:[#6]):[#6]:[#6](:[#6])-[#8]`; present in 0.8% of CTRPv2 compounds; example compounds: epigallocatechin-3-monogallate, CAY10594, avrainvillamide
+
+Same-drug cohort examples:
+1. cell=EOL1 | tissue=haematopoietic and lymphoid tissue | auc=-0.6125 | profile=more sensitive
+2. cell=MV411 | tissue=haematopoietic and lymphoid tissue | auc=-0.5813 | profile=more sensitive
+3. cell=EFO21 | tissue=ovary | auc=2.1887 | profile=more resistant
+4. cell=PECAPJ41CLONED2 | tissue=upper aerodigestive tract | auc=2.1977 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=dacarbazine | target=n/a | auc=-3.9794 | profile=more sensitive
+2. drug=GSK461364 | target=PLK1 | auc=-3.6711 | profile=more sensitive
+3. drug=NVP-231 | target=CERK | auc=3.3956 | profile=more resistant
+4. drug=AZ-3146 | target=TTK | auc=3.8622 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=181811, n_features=2024, train_r2=0.4042, train_rmse=1.0264, train_corr=0.6385. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.5459.
+- N-estimator tuning best row: max_depth=10, n_estimators=235, mean_r2=0.3803, std_r2=0.0031.
+- Top global fingerprint features: fp_0141 (0.11630), fp_0513 (0.04974), fp_0535 (0.03781), fp_0017 (0.03749), fp_0723 (0.03716), fp_0071 (0.03714), fp_0777 (0.03127), fp_0518 (0.02657).
+- Most common genes across predictable per-drug models: MYOF (26509) (92 drugs), TNFRSF12A (51330) (82 drugs), SDC4 (6385) (74 drugs), CCN1 (3491) (71 drugs), PRSS23 (11098) (69 drugs), WWTR1 (25937) (61 drugs), LAMB2 (3913) (60 drugs), GPX8 (493869) (59 drugs).
+- Per-drug cross-validated predictability for NVP-BSK805: R2=0.2469.
+- Cell subtype metadata is available: diffuse adenocarcinoma.
+
+Write one grounded markdown report with the required section headings.

@@ -1,0 +1,95 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. Lower AUC means greater sensitivity; higher AUC means greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher AUC/resistance and negative SHAP values push toward lower AUC/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0028 - PRIMA-1 on SUDHL10
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of PRIMA-1 on SUDHL10 using observed log10(IC50), the RF-predicted log10(IC50), and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher log10(IC50)/resistance or lower log10(IC50)/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0028
+- evidence_id: SHAP-0028
+- drug_name: PRIMA-1
+- drug_id: 50131
+- gene_target: TP53
+- mechanism: re-activator of the pro-apoptotic activity of mutant p53
+- per_drug_cv_r2: 0.3234275614651822
+- cell_line: SUDHL10
+- tissue: haematopoietic and lymphoid tissue
+- histology: lymphoid neoplasm
+- subtype: diffuse large B cell lymphoma
+- target_label: log10(IC50)
+- observed_log10_ic50: 0.7151
+- model_predicted_log10_ic50: 0.7137
+- prediction_error: +0.0014
+- abs_error: 0.0014
+- global_mean_log10_ic50: 0.6392
+- interpretation: close to the model prediction and cohort baselines
+- selection_reason: LLM-explainable normal: observed log10(IC50)=+0.715, RF OOF predicted +0.718 (Δ_model=-0.003), 20-NN mean=+0.731 (Δ_knn=-0.016). Drug target: TP53. Cell lineage: Lymphoid / Mature B-Cell Neoplasms. Per-drug R² on held-out cells = 0.32.
+
+Drug cohort context:
+- n=695 | mean_log10_ic50=1.5212 | q10=0.7914 | median=1.4892 | q90=2.4957 | sample_percentile=8.1
+Cell cohort context:
+- n=213 | mean_log10_ic50=0.3240 | q10=-1.3628 | median=0.3960 | q90=1.7949 | sample_percentile=60.1
+
+Top TreeSHAP features:
+1. CCN1 (3491) | type=gene_expression | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.2095 | abs_shap=0.2095 | value=1.2141 | z=-1.31 | supporting_drugs=71 | note=below the cross-cell-line mean; recurs in 71 predictable-drug RF signatures
+2. fp_0017 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0307 | abs_shap=0.0307 | value=0.0000 | pct_drugs=2.3 | SMARTS=[#8]-[#6@](-[#6@@H])(-[#6])-[#6@@](-[#8]-[#6])(-[#6@@H](-[#6@@H])-[#6])-[#6](:[#6]):[#6] | example_drugs=bexarotene, SR-II-138A, CR-1-31B | note=representative SMARTS `[#8]-[#6@](-[#6@@H])(-[#6])-[#6@@](-[#8]-[#6])(-[#6@@H](-[#6@@H])-[#6])-[#6](:[#6]):[#6]`; present in 2.3% of CTRPv2 compounds; example compounds: bexarotene, SR-II-138A, CR-1-31B
+3. fp_0141 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0274 | abs_shap=0.0274 | value=0.0000 | pct_drugs=1.5 | SMARTS=[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7] | example_drugs=dexamethasone, austocystin D, daporinad | note=representative SMARTS `[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7]`; present in 1.5% of CTRPv2 compounds; example compounds: dexamethasone, austocystin D, daporinad
+4. fp_0513 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0200 | abs_shap=0.0200 | value=0.0000 | pct_drugs=0.8 | SMARTS=[#8]-[#6](:[#6]):[#6]:[#6](:[#6])-[#8] | example_drugs=epigallocatechin-3-monogallate, CAY10594, avrainvillamide | note=representative SMARTS `[#8]-[#6](:[#6]):[#6]:[#6](:[#6])-[#8]`; present in 0.8% of CTRPv2 compounds; example compounds: epigallocatechin-3-monogallate, CAY10594, avrainvillamide
+5. fp_0535 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0176 | abs_shap=0.0176 | value=0.0000 | pct_drugs=1.7 | SMARTS=[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6] | example_drugs=BRD4132, BRD6340, parbendazole | note=representative SMARTS `[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6]`; present in 1.7% of CTRPv2 compounds; example compounds: BRD4132, BRD6340, parbendazole
+6. fp_0723 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0152 | abs_shap=0.0152 | value=0.0000 | pct_drugs=6.0 | SMARTS=[#6]:[#6](:[#6])-[#6] | example_drugs=gossypol, teniposide, valdecoxib | note=representative SMARTS `[#6]:[#6](:[#6])-[#6]`; present in 6.0% of CTRPv2 compounds; example compounds: gossypol, teniposide, valdecoxib
+
+Same-drug cohort examples:
+1. cell=SF126 | tissue=central nervous system | auc=-2.2783 | profile=more sensitive
+2. cell=DOHH2 | tissue=haematopoietic and lymphoid tissue | auc=-1.0716 | profile=more sensitive
+3. cell=A172 | tissue=central nervous system | auc=3.1701 | profile=more resistant
+4. cell=8MGBA | tissue=central nervous system | auc=3.3443 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=SB-743921 | target=KIF11 | auc=-3.2073 | profile=more sensitive
+2. drug=paclitaxel | target=n/a | auc=-3.1273 | profile=more sensitive
+3. drug=necrostatin-1 | target=RIPK1 | auc=2.9915 | profile=more resistant
+4. drug=myricetin | target=n/a | auc=3.4528 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=181811, n_features=2024, train_r2=0.4042, train_rmse=1.0264, train_corr=0.6385. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.5459.
+- N-estimator tuning best row: max_depth=10, n_estimators=235, mean_r2=0.3803, std_r2=0.0031.
+- Top global fingerprint features: fp_0141 (0.11630), fp_0513 (0.04974), fp_0535 (0.03781), fp_0017 (0.03749), fp_0723 (0.03716), fp_0071 (0.03714), fp_0777 (0.03127), fp_0518 (0.02657).
+- Most common genes across predictable per-drug models: MYOF (26509) (92 drugs), TNFRSF12A (51330) (82 drugs), SDC4 (6385) (74 drugs), CCN1 (3491) (71 drugs), PRSS23 (11098) (69 drugs), WWTR1 (25937) (61 drugs), LAMB2 (3913) (60 drugs), GPX8 (493869) (59 drugs).
+- Per-drug cross-validated predictability for PRIMA-1: R2=0.3234.
+- Cell subtype metadata is available: diffuse large B cell lymphoma.
+
+Write one grounded markdown report with the required section headings.

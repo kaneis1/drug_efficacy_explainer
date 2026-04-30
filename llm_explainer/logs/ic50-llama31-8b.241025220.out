@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg05e08>
+Subject: Job 241025220: <llmexp_ic50_llama31_8b> in cluster <chimera> Done
+
+Job <llmexp_ic50_llama31_8b> was submitted from host <lc03e16> by user <cuiz02> in cluster <chimera> at Wed Apr 29 21:52:01 2026
+Job was executed on host(s) <4*lg05e08>, in queue <gpuexpress>, as user <cuiz02> in cluster <chimera> at Wed Apr 29 21:52:06 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Wed Apr 29 21:52:06 2026
+Terminated at Wed Apr 29 22:01:57 2026
+Results reported at Wed Apr 29 22:01:57 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python llm_explainer/generate_reports.py     --model-key Meta-Llama-3.1-8B-Instruct     --reports "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_sample_reports_ic50_explainable50.jsonl"     --results-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50"     --output-root "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/outputs_ic50_explainable50"     --output-subdir meta-llama-3-1-8b-instruct     --run-label "Meta-Llama-3.1-8B-Instruct IC50 Explainable50"     --overwrite
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   520.00 sec.
+    Max Memory :                                 1346 MB
+    Average Memory :                             1173.22 MB
+    Total Requested Memory :                     262144.00 MB
+    Delta Memory :                               260798.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                14
+    Run time :                                   591 sec.
+    Turnaround time :                            596 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/ic50-llama31-8b.241025220.err> for stderr output of this job.
+

@@ -545,6 +545,10 @@ def select_case_ids(
                 rec["selection_tag"] = str(row["selection_tag"])
             if "selection_reason" in merged.columns and pd.notna(row.get("selection_reason")):
                 rec["selection_reason"] = str(row["selection_reason"])
+            if "report_id" in merged.columns and pd.notna(row.get("report_id")):
+                rec["report_id"] = str(row["report_id"])
+            if "evidence_id" in merged.columns and pd.notna(row.get("evidence_id")):
+                rec["evidence_id"] = str(row["evidence_id"])
             if rec:
                 overrides[sid] = rec
         if num_reports > 0:
@@ -1192,13 +1196,13 @@ def main() -> None:
     md_parts = [f"# SHAP-Grounded Sample Reports ({target_label})", ""]
     with out_jsonl.open("w", encoding="utf-8") as fout:
         for idx, sample_idx in enumerate(selected_sample_ids, start=1):
-            report_id = f"RPT-{idx:04d}"
-            evidence_id = f"SHAP-{idx:04d}"
             case_row = sample_summary.loc[sample_summary["sample_idx"] == sample_idx].iloc[0]
             feature_rows = shap_df.loc[shap_df["sample_idx"] == sample_idx].sort_values(
                 ["feature_rank", "abs_shap_value"], ascending=[True, False]
             )
             override = selection_overrides.get(int(sample_idx), {})
+            report_id = str(override.get("report_id", f"RPT-{idx:04d}"))
+            evidence_id = str(override.get("evidence_id", f"SHAP-{idx:04d}"))
             payload = build_payload_for_case(
                 report_id=report_id,
                 evidence_id=evidence_id,

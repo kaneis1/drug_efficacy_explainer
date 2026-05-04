@@ -1,0 +1,2373 @@
+{
+  "model_key": "Meta-Llama-3.1-8B-Instruct",
+  "run_label": "Meta-Llama-3.1-8B-Instruct",
+  "model_path": "/sc/arion/scratch/cuiz02/hf_cache/transformers/Meta-Llama-3.1-8B-Instruct",
+  "tokenizer_path": "/sc/arion/scratch/cuiz02/hf_cache/transformers/Meta-Llama-3.1-8B-Instruct",
+  "adapter_path": "",
+  "reports_path": "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_reports_25_pairs_ic50.jsonl",
+  "results_root": "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50",
+  "max_reports": 24,
+  "max_new_tokens": 1200,
+  "temperature": 0.0,
+  "top_p": 0.9,
+  "dry_run": false,
+  "started_at_unix": 1777879303.1750526,
+  "global_context": {
+    "metrics_dem": {
+      "target": "y",
+      "n_samples": 181811,
+      "n_features": 2024,
+      "n_cell_features": 1000,
+      "n_drug_features": 1024,
+      "n_estimators": 100,
+      "max_depth": 10,
+      "seed": 42,
+      "train_r2": 0.4041644500613636,
+      "train_rmse": 1.0263849873348954,
+      "train_corr": 0.6385127183662858
+    },
+    "best_depth": {
+      "max_depth": 20.0,
+      "n_estimators": 100.0,
+      "r2": 0.5458551386304771
+    },
+    "best_n_estimators": {
+      "max_depth": 10.0,
+      "n_estimators": 235.0,
+      "mean_r2": 0.3802552816994562,
+      "std_r2": 0.0031063133334617
+    },
+    "top_fingerprints": [
+      {
+        "feature": "fp_0141",
+        "importance": 0.1162990442819568
+      },
+      {
+        "feature": "fp_0513",
+        "importance": 0.0497412811874316
+      },
+      {
+        "feature": "fp_0535",
+        "importance": 0.0378076232000628
+      },
+      {
+        "feature": "fp_0017",
+        "importance": 0.037493211425728
+      },
+      {
+        "feature": "fp_0723",
+        "importance": 0.0371600750457101
+      },
+      {
+        "feature": "fp_0071",
+        "importance": 0.0371375816680156
+      },
+      {
+        "feature": "fp_0777",
+        "importance": 0.0312662974815146
+      },
+      {
+        "feature": "fp_0518",
+        "importance": 0.0265652993989392
+      },
+      {
+        "feature": "fp_0876",
+        "importance": 0.0236965861642232
+      },
+      {
+        "feature": "fp_0673",
+        "importance": 0.0229736648477692
+      },
+      {
+        "feature": "fp_0997",
+        "importance": 0.0217220008084817
+      },
+      {
+        "feature": "fp_0688",
+        "importance": 0.0193939495629488
+      }
+    ],
+    "per_drug_r2": {
+      "687954": {
+        "master_cpd_id": 687954,
+        "r2": 0.5336411550680393,
+        "cpd_name": "dabrafenib"
+      },
+      "347775": {
+        "master_cpd_id": 347775,
+        "r2": 0.5166268520747732,
+        "cpd_name": "decitabine"
+      },
+      "60225": {
+        "master_cpd_id": 60225,
+        "r2": 0.4972903805329581,
+        "cpd_name": "belinostat"
+      },
+      "277354": {
+        "master_cpd_id": 277354,
+        "r2": 0.494146527125479,
+        "cpd_name": "dexamethasone"
+      },
+      "44580": {
+        "master_cpd_id": 44580,
+        "r2": 0.4014387471997103,
+        "cpd_name": "topotecan"
+      },
+      "27871": {
+        "master_cpd_id": 27871,
+        "r2": 0.3841077422031117,
+        "cpd_name": "teniposide"
+      },
+      "61097": {
+        "master_cpd_id": 61097,
+        "r2": 0.3700364041778725,
+        "cpd_name": "apicidin"
+      },
+      "632243": {
+        "master_cpd_id": 632243,
+        "r2": 0.3506303524032595,
+        "cpd_name": "narciclasine"
+      },
+      "660391": {
+        "master_cpd_id": 660391,
+        "r2": 0.3488448052667063,
+        "cpd_name": "nelarabine"
+      },
+      "417416": {
+        "master_cpd_id": 417416,
+        "r2": 0.3456978041889658,
+        "cpd_name": "tipifarnib-P2"
+      },
+      "601923": {
+        "master_cpd_id": 601923,
+        "r2": 0.3416750886288872,
+        "cpd_name": "barasertib"
+      },
+      "376307": {
+        "master_cpd_id": 376307,
+        "r2": 0.3317333276557729,
+        "cpd_name": "BRD-K80183349"
+      },
+      "411874": {
+        "master_cpd_id": 411874,
+        "r2": 0.3312030765521056,
+        "cpd_name": "indisulam"
+      },
+      "636711": {
+        "master_cpd_id": 636711,
+        "r2": 0.3285069311425618,
+        "cpd_name": "alisertib"
+      },
+      "375637": {
+        "master_cpd_id": 375637,
+        "r2": 0.3277538206621638,
+        "cpd_name": "SN-38"
+      },
+      "50131": {
+        "master_cpd_id": 50131,
+        "r2": 0.3234275614651822,
+        "cpd_name": "PRIMA-1"
+      },
+      "660413": {
+        "master_cpd_id": 660413,
+        "r2": 0.3149194715571902,
+        "cpd_name": "KW-2449"
+      },
+      "607696": {
+        "master_cpd_id": 607696,
+        "r2": 0.308519688431716,
+        "cpd_name": "LRRK2-IN-1"
+      },
+      "48589": {
+        "master_cpd_id": 48589,
+        "r2": 0.3081208629180546,
+        "cpd_name": "etoposide"
+      },
+      "56554": {
+        "master_cpd_id": 56554,
+        "r2": 0.2918032225789822,
+        "cpd_name": "vorinostat"
+      },
+      "375219": {
+        "master_cpd_id": 375219,
+        "r2": 0.2916439890614035,
+        "cpd_name": "omacetaxine mepesuccinate"
+      },
+      "50732": {
+        "master_cpd_id": 50732,
+        "r2": 0.2893609107345433,
+        "cpd_name": "mitomycin"
+      },
+      "609124": {
+        "master_cpd_id": 609124,
+        "r2": 0.2858113554379972,
+        "cpd_name": "PX-12"
+      },
+      "411805": {
+        "master_cpd_id": 411805,
+        "r2": 0.2831600965471476,
+        "cpd_name": "Compound 7d-cis"
+      },
+      "347813": {
+        "master_cpd_id": 347813,
+        "r2": 0.2724305966653217,
+        "cpd_name": "BI-2536"
+      },
+      "32622": {
+        "master_cpd_id": 32622,
+        "r2": 0.2709873887648936,
+        "cpd_name": "dacarbazine"
+      },
+      "36599": {
+        "master_cpd_id": 36599,
+        "r2": 0.2706894218718334,
+        "cpd_name": "doxorubicin"
+      },
+      "54210": {
+        "master_cpd_id": 54210,
+        "r2": 0.2690576570261602,
+        "cpd_name": "LBH-589"
+      },
+      "660202": {
+        "master_cpd_id": 660202,
+        "r2": 0.268375651013911,
+        "cpd_name": "PYR-41"
+      },
+      "609060": {
+        "master_cpd_id": 609060,
+        "r2": 0.2660468281188572,
+        "cpd_name": "1S,3R-RSL-3"
+      },
+      "660935": {
+        "master_cpd_id": 660935,
+        "r2": 0.2549993629037289,
+        "cpd_name": "KPT185"
+      },
+      "628603": {
+        "master_cpd_id": 628603,
+        "r2": 0.2540802058600515,
+        "cpd_name": "crizotinib"
+      },
+      "25334": {
+        "master_cpd_id": 25334,
+        "r2": 0.2533198535968752,
+        "cpd_name": "chlorambucil"
+      },
+      "411722": {
+        "master_cpd_id": 411722,
+        "r2": 0.2529717175069841,
+        "cpd_name": "nutlin-3"
+      },
+      "606248": {
+        "master_cpd_id": 606248,
+        "r2": 0.2514707021908732,
+        "cpd_name": "GDC-0879"
+      },
+      "154846": {
+        "master_cpd_id": 154846,
+        "r2": 0.2486950536258886,
+        "cpd_name": "ML162"
+      },
+      "649862": {
+        "master_cpd_id": 649862,
+        "r2": 0.2481771232486557,
+        "cpd_name": "GSK461364"
+      },
+      "660434": {
+        "master_cpd_id": 660434,
+        "r2": 0.2469054415003102,
+        "cpd_name": "NVP-BSK805"
+      },
+      "616354": {
+        "master_cpd_id": 616354,
+        "r2": 0.2458122676940174,
+        "cpd_name": "JQ-1"
+      },
+      "411808": {
+        "master_cpd_id": 411808,
+        "r2": 0.2455059337450786,
+        "cpd_name": "TG-101348"
+      },
+      "687953": {
+        "master_cpd_id": 687953,
+        "r2": 0.2430366893548941,
+        "cpd_name": "PF-3758309"
+      },
+      "660306": {
+        "master_cpd_id": 660306,
+        "r2": 0.2399057423476355,
+        "cpd_name": "AZD1480"
+      },
+      "61674": {
+        "master_cpd_id": 61674,
+        "r2": 0.2314371978375256,
+        "cpd_name": "Merck60"
+      },
+      "417451": {
+        "master_cpd_id": 417451,
+        "r2": 0.2286030233222216,
+        "cpd_name": "Compound 23 citrate"
+      },
+      "609781": {
+        "master_cpd_id": 609781,
+        "r2": 0.2255495875182423,
+        "cpd_name": "ML239"
+      },
+      "411867": {
+        "master_cpd_id": 411867,
+        "r2": 0.225109567383431,
+        "cpd_name": "olaparib"
+      },
+      "348991": {
+        "master_cpd_id": 348991,
+        "r2": 0.220325680836209,
+        "cpd_name": "selumetinib"
+      },
+      "660410": {
+        "master_cpd_id": 660410,
+        "r2": 0.2192051205746572,
+        "cpd_name": "PD318088"
+      },
+      "660777": {
+        "master_cpd_id": 660777,
+        "r2": 0.205292648700912,
+        "cpd_name": "AZD7762"
+      },
+      "660321": {
+        "master_cpd_id": 660321,
+        "r2": 0.2037161130910219,
+        "cpd_name": "BMS-270394"
+      },
+      "375560": {
+        "master_cpd_id": 375560,
+        "r2": 0.2024320622108091,
+        "cpd_name": "Ki8751"
+      },
+      "50134": {
+        "master_cpd_id": 50134,
+        "r2": 0.1988465138755753,
+        "cpd_name": "tanespimycin"
+      },
+      "416775": {
+        "master_cpd_id": 416775,
+        "r2": 0.196426060725711,
+        "cpd_name": "austocystin D"
+      },
+      "634814": {
+        "master_cpd_id": 634814,
+        "r2": 0.1960577183920205,
+        "cpd_name": "BRD-K29313308"
+      },
+      "666541": {
+        "master_cpd_id": 666541,
+        "r2": 0.1940046278228259,
+        "cpd_name": "ABT-199"
+      },
+      "411738": {
+        "master_cpd_id": 411738,
+        "r2": 0.1895554976300253,
+        "cpd_name": "ABT-737"
+      },
+      "25344": {
+        "master_cpd_id": 25344,
+        "r2": 0.1883558627593994,
+        "cpd_name": "fluorouracil"
+      },
+      "660087": {
+        "master_cpd_id": 660087,
+        "r2": 0.187435019739215,
+        "cpd_name": "AZ-3146"
+      },
+      "54200": {
+        "master_cpd_id": 54200,
+        "r2": 0.187103028638037,
+        "cpd_name": "tacedinaline"
+      },
+      "594399": {
+        "master_cpd_id": 594399,
+        "r2": 0.1865599339949096,
+        "cpd_name": "NSC48300"
+      },
+      "417417": {
+        "master_cpd_id": 417417,
+        "r2": 0.1860997972523715,
+        "cpd_name": "tipifarnib-P1"
+      },
+      "660081": {
+        "master_cpd_id": 660081,
+        "r2": 0.1826138132654035,
+        "cpd_name": "GSK4112"
+      },
+      "60218": {
+        "master_cpd_id": 60218,
+        "r2": 0.1812109468973831,
+        "cpd_name": "entinostat"
+      },
+      "660238": {
+        "master_cpd_id": 660238,
+        "r2": 0.1810729581693783,
+        "cpd_name": "SB-743921"
+      },
+      "632907": {
+        "master_cpd_id": 632907,
+        "r2": 0.1786297956586982,
+        "cpd_name": "ISOX"
+      },
+      "628408": {
+        "master_cpd_id": 628408,
+        "r2": 0.1780280497943434,
+        "cpd_name": "Repligen 136"
+      },
+      "62690": {
+        "master_cpd_id": 62690,
+        "r2": 0.177479690018709,
+        "cpd_name": "cytarabine hydrochloride"
+      },
+      "616408": {
+        "master_cpd_id": 616408,
+        "r2": 0.1720973462577256,
+        "cpd_name": "BRD-K85133207"
+      },
+      "56703": {
+        "master_cpd_id": 56703,
+        "r2": 0.1698884576247276,
+        "cpd_name": "sirolimus"
+      },
+      "374749": {
+        "master_cpd_id": 374749,
+        "r2": 0.1687483637920229,
+        "cpd_name": "nilotinib"
+      },
+      "374750": {
+        "master_cpd_id": 374750,
+        "r2": 0.1686479903521817,
+        "cpd_name": "sunitinib"
+      },
+      "411792": {
+        "master_cpd_id": 411792,
+        "r2": 0.1672532055783816,
+        "cpd_name": "parthenolide"
+      },
+      "606142": {
+        "master_cpd_id": 606142,
+        "r2": 0.162792638214701,
+        "cpd_name": "obatoclax"
+      },
+      "29985": {
+        "master_cpd_id": 29985,
+        "r2": 0.1567269579037353,
+        "cpd_name": "myricetin"
+      },
+      "417981": {
+        "master_cpd_id": 417981,
+        "r2": 0.1546319698619439,
+        "cpd_name": "BMS-754807"
+      },
+      "606246": {
+        "master_cpd_id": 606246,
+        "r2": 0.1529624357775362,
+        "cpd_name": "brivanib"
+      },
+      "628620": {
+        "master_cpd_id": 628620,
+        "r2": 0.1523800465208402,
+        "cpd_name": "OSI-930"
+      },
+      "418038": {
+        "master_cpd_id": 418038,
+        "r2": 0.1509531751065307,
+        "cpd_name": "neratinib"
+      },
+      "183526": {
+        "master_cpd_id": 183526,
+        "r2": 0.1507133404904118,
+        "cpd_name": "CIL70"
+      },
+      "660136": {
+        "master_cpd_id": 660136,
+        "r2": 0.1501219375645066,
+        "cpd_name": "vorapaxar"
+      },
+      "375447": {
+        "master_cpd_id": 375447,
+        "r2": 0.1476160522053829,
+        "cpd_name": "GW-405833"
+      },
+      "660206": {
+        "master_cpd_id": 660206,
+        "r2": 0.1467742267348724,
+        "cpd_name": "I-BET151"
+      },
+      "375264": {
+        "master_cpd_id": 375264,
+        "r2": 0.1466115457642757,
+        "cpd_name": "SCH-79797"
+      },
+      "411770": {
+        "master_cpd_id": 411770,
+        "r2": 0.1464137451962169,
+        "cpd_name": "SR-II-138A"
+      },
+      "417979": {
+        "master_cpd_id": 417979,
+        "r2": 0.1456022543216731,
+        "cpd_name": "YM-155"
+      },
+      "377381": {
+        "master_cpd_id": 377381,
+        "r2": 0.1454896163828108,
+        "cpd_name": "MK-2206"
+      },
+      "660409": {
+        "master_cpd_id": 660409,
+        "r2": 0.1453264968063044,
+        "cpd_name": "AT7867"
+      },
+      "660288": {
+        "master_cpd_id": 660288,
+        "r2": 0.1451505269702538,
+        "cpd_name": "clofarabine"
+      },
+      "660994": {
+        "master_cpd_id": 660994,
+        "r2": 0.1445238737298336,
+        "cpd_name": "ibrutinib"
+      },
+      "660078": {
+        "master_cpd_id": 660078,
+        "r2": 0.1432727389187366,
+        "cpd_name": "ceranib-2"
+      },
+      "616353": {
+        "master_cpd_id": 616353,
+        "r2": 0.1401586007966966,
+        "cpd_name": "fumonisin B1"
+      },
+      "632873": {
+        "master_cpd_id": 632873,
+        "r2": 0.1401379659702559,
+        "cpd_name": "MLN2238"
+      },
+      "375492": {
+        "master_cpd_id": 375492,
+        "r2": 0.1396742190720659,
+        "cpd_name": "RITA"
+      },
+      "687418": {
+        "master_cpd_id": 687418,
+        "r2": 0.1371122337851971,
+        "cpd_name": "trametinib"
+      },
+      "668723": {
+        "master_cpd_id": 668723,
+        "r2": 0.1370684018905689,
+        "cpd_name": "GSK2636771"
+      },
+      "632104": {
+        "master_cpd_id": 632104,
+        "r2": 0.1354418962503576,
+        "cpd_name": "CAY10618"
+      },
+      "606586": {
+        "master_cpd_id": 606586,
+        "r2": 0.1347157332653193,
+        "cpd_name": "SU11274"
+      },
+      "660208": {
+        "master_cpd_id": 660208,
+        "r2": 0.1343349103077632,
+        "cpd_name": "PF-184"
+      },
+      "411815": {
+        "master_cpd_id": 411815,
+        "r2": 0.1322913697761409,
+        "cpd_name": "VER-155008"
+      },
+      "660358": {
+        "master_cpd_id": 660358,
+        "r2": 0.1319881416991585,
+        "cpd_name": "temsirolimus"
+      },
+      "362342": {
+        "master_cpd_id": 362342,
+        "r2": 0.1310787201472372,
+        "cpd_name": "navitoclax"
+      },
+      "376693": {
+        "master_cpd_id": 376693,
+        "r2": 0.129613082186534,
+        "cpd_name": "BRD-K66532283"
+      },
+      "639531": {
+        "master_cpd_id": 639531,
+        "r2": 0.1292252647305698,
+        "cpd_name": "bleomycin A2"
+      },
+      "660774": {
+        "master_cpd_id": 660774,
+        "r2": 0.1250037696439273,
+        "cpd_name": "PIK-93"
+      },
+      "687395": {
+        "master_cpd_id": 687395,
+        "r2": 0.1249500141576173,
+        "cpd_name": "BRD-K99006945"
+      },
+      "628607": {
+        "master_cpd_id": 628607,
+        "r2": 0.1240071772724666,
+        "cpd_name": "foretinib"
+      },
+      "660414": {
+        "master_cpd_id": 660414,
+        "r2": 0.1227872744741684,
+        "cpd_name": "RAF265"
+      },
+      "50727": {
+        "master_cpd_id": 50727,
+        "r2": 0.1225527091093856,
+        "cpd_name": "manumycin A"
+      },
+      "62602": {
+        "master_cpd_id": 62602,
+        "r2": 0.1197443591510145,
+        "cpd_name": "vincristine"
+      },
+      "272805": {
+        "master_cpd_id": 272805,
+        "r2": 0.1178249164484005,
+        "cpd_name": "IU1"
+      },
+      "632119": {
+        "master_cpd_id": 632119,
+        "r2": 0.1175482331890001,
+        "cpd_name": "KU 0060648"
+      },
+      "290356": {
+        "master_cpd_id": 290356,
+        "r2": 0.11670216854486,
+        "cpd_name": "ML311"
+      },
+      "411814": {
+        "master_cpd_id": 411814,
+        "r2": 0.1154096571143923,
+        "cpd_name": "AZD7545"
+      },
+      "609110": {
+        "master_cpd_id": 609110,
+        "r2": 0.1134881430094849,
+        "cpd_name": "ML210"
+      },
+      "609063": {
+        "master_cpd_id": 609063,
+        "r2": 0.111250236935859,
+        "cpd_name": "StemRegenin 1"
+      },
+      "52882": {
+        "master_cpd_id": 52882,
+        "r2": 0.109969282518417,
+        "cpd_name": "dasatinib"
+      },
+      "660145": {
+        "master_cpd_id": 660145,
+        "r2": 0.1090131766855811,
+        "cpd_name": "BRD-A71883111"
+      },
+      "418164": {
+        "master_cpd_id": 418164,
+        "r2": 0.1084265292589378,
+        "cpd_name": "serdemetan"
+      },
+      "481311": {
+        "master_cpd_id": 481311,
+        "r2": 0.107997059806509,
+        "cpd_name": "HLI 373"
+      },
+      "50715": {
+        "master_cpd_id": 50715,
+        "r2": 0.1079509391082778,
+        "cpd_name": "NSC95397"
+      },
+      "411859": {
+        "master_cpd_id": 411859,
+        "r2": 0.1065995016662478,
+        "cpd_name": "BMS-536924"
+      },
+      "348990": {
+        "master_cpd_id": 348990,
+        "r2": 0.1060250743529702,
+        "cpd_name": "axitinib"
+      },
+      "375366": {
+        "master_cpd_id": 375366,
+        "r2": 0.1046924994464831,
+        "cpd_name": "SKI-II"
+      },
+      "418209": {
+        "master_cpd_id": 418209,
+        "r2": 0.1043408824782839,
+        "cpd_name": "CR-1-31B"
+      },
+      "687406": {
+        "master_cpd_id": 687406,
+        "r2": 0.1033784909661257,
+        "cpd_name": "tivantinib"
+      },
+      "606670": {
+        "master_cpd_id": 606670,
+        "r2": 0.100629584836693,
+        "cpd_name": "BRD-K88742110"
+      },
+      "411737": {
+        "master_cpd_id": 411737,
+        "r2": 0.1000851156704351,
+        "cpd_name": "bortezomib"
+      },
+      "411749": {
+        "master_cpd_id": 411749,
+        "r2": 0.1000629361389106,
+        "cpd_name": "tubastatin A"
+      },
+      "374747": {
+        "master_cpd_id": 374747,
+        "r2": 0.09867159291356,
+        "cpd_name": "bexarotene"
+      },
+      "100490": {
+        "master_cpd_id": 100490,
+        "r2": 0.0957722866697694,
+        "cpd_name": "CIL56"
+      },
+      "606249": {
+        "master_cpd_id": 606249,
+        "r2": 0.0942723345258448,
+        "cpd_name": "NVP-TAE684"
+      },
+      "660319": {
+        "master_cpd_id": 660319,
+        "r2": 0.0920334700568959,
+        "cpd_name": "elocalcitol"
+      },
+      "606470": {
+        "master_cpd_id": 606470,
+        "r2": 0.091651652557011,
+        "cpd_name": "TG-100-115"
+      },
+      "30620": {
+        "master_cpd_id": 30620,
+        "r2": 0.0916195378021258,
+        "cpd_name": "lovastatin"
+      },
+      "606035": {
+        "master_cpd_id": 606035,
+        "r2": 0.0908328625523292,
+        "cpd_name": "saracatinib"
+      },
+      "411856": {
+        "master_cpd_id": 411856,
+        "r2": 0.0902483044981861,
+        "cpd_name": "avrainvillamide"
+      },
+      "411863": {
+        "master_cpd_id": 411863,
+        "r2": 0.0900067679241555,
+        "cpd_name": "gemcitabine"
+      },
+      "52430": {
+        "master_cpd_id": 52430,
+        "r2": 0.0882553623702548,
+        "cpd_name": "cerulenin"
+      },
+      "52928": {
+        "master_cpd_id": 52928,
+        "r2": 0.0879541746839716,
+        "cpd_name": "erlotinib"
+      },
+      "24173": {
+        "master_cpd_id": 24173,
+        "r2": 0.0872925545965694,
+        "cpd_name": "phloretin"
+      },
+      "411809": {
+        "master_cpd_id": 411809,
+        "r2": 0.0868531205906925,
+        "cpd_name": "pevonedistat"
+      },
+      "411733": {
+        "master_cpd_id": 411733,
+        "r2": 0.0857778566422485,
+        "cpd_name": "neuronal differentiation inducer III"
+      },
+      "677522": {
+        "master_cpd_id": 677522,
+        "r2": 0.0848274845829883,
+        "cpd_name": "necrosulfonamide"
+      },
+      "660075": {
+        "master_cpd_id": 660075,
+        "r2": 0.0831670520490948,
+        "cpd_name": "PF-573228"
+      },
+      "18311": {
+        "master_cpd_id": 18311,
+        "r2": 0.08191473358299,
+        "cpd_name": "Bax channel blocker"
+      },
+      "17712": {
+        "master_cpd_id": 17712,
+        "r2": 0.0817256378894919,
+        "cpd_name": "ML006"
+      },
+      "688799": {
+        "master_cpd_id": 688799,
+        "r2": 0.0787319814273001,
+        "cpd_name": "skepinone-L"
+      },
+      "639390": {
+        "master_cpd_id": 639390,
+        "r2": 0.0783259808503692,
+        "cpd_name": "AZD6482"
+      },
+      "411717": {
+        "master_cpd_id": 411717,
+        "r2": 0.0781511744982051,
+        "cpd_name": "L-685458"
+      },
+      "404452": {
+        "master_cpd_id": 404452,
+        "r2": 0.0765646344882427,
+        "cpd_name": "BRD-K41597374"
+      },
+      "375564": {
+        "master_cpd_id": 375564,
+        "r2": 0.0751206920159343,
+        "cpd_name": "TPCA-1"
+      },
+      "640011": {
+        "master_cpd_id": 640011,
+        "r2": 0.0746872249062209,
+        "cpd_name": "quizartinib"
+      },
+      "667933": {
+        "master_cpd_id": 667933,
+        "r2": 0.0740082386797046,
+        "cpd_name": "methylstat"
+      },
+      "348633": {
+        "master_cpd_id": 348633,
+        "r2": 0.0719724787110078,
+        "cpd_name": "BRD-K61166597"
+      },
+      "411742": {
+        "master_cpd_id": 411742,
+        "r2": 0.0715483808261847,
+        "cpd_name": "PI-103"
+      },
+      "411739": {
+        "master_cpd_id": 411739,
+        "r2": 0.0699613897582381,
+        "cpd_name": "zebularine"
+      },
+      "628622": {
+        "master_cpd_id": 628622,
+        "r2": 0.0686881470101453,
+        "cpd_name": "MGCD-265"
+      },
+      "606356": {
+        "master_cpd_id": 606356,
+        "r2": 0.0668971104680992,
+        "cpd_name": "TGX-221"
+      },
+      "688229": {
+        "master_cpd_id": 688229,
+        "r2": 0.0665564372917092,
+        "cpd_name": "AT13387"
+      },
+      "705300": {
+        "master_cpd_id": 705300,
+        "r2": 0.066524883013991,
+        "cpd_name": "linsitinib"
+      },
+      "710154": {
+        "master_cpd_id": 710154,
+        "r2": 0.0660841397812469,
+        "cpd_name": "AT-406"
+      },
+      "687769": {
+        "master_cpd_id": 687769,
+        "r2": 0.0647306392562621,
+        "cpd_name": "BRD-A86708339"
+      },
+      "418166": {
+        "master_cpd_id": 418166,
+        "r2": 0.0647056912229649,
+        "cpd_name": "daporinad"
+      },
+      "62111": {
+        "master_cpd_id": 62111,
+        "r2": 0.0643266148765798,
+        "cpd_name": "compound 1B"
+      },
+      "411869": {
+        "master_cpd_id": 411869,
+        "r2": 0.0631181763888178,
+        "cpd_name": "oligomycin A"
+      },
+      "660796": {
+        "master_cpd_id": 660796,
+        "r2": 0.0626996237568722,
+        "cpd_name": "3-Cl-AHPC"
+      },
+      "580922": {
+        "master_cpd_id": 580922,
+        "r2": 0.0619139793926514,
+        "cpd_name": "NSC19630"
+      },
+      "660325": {
+        "master_cpd_id": 660325,
+        "r2": 0.0613800863614526,
+        "cpd_name": "AZD4547"
+      },
+      "58472": {
+        "master_cpd_id": 58472,
+        "r2": 0.0577971503761765,
+        "cpd_name": "PDMP"
+      },
+      "345041": {
+        "master_cpd_id": 345041,
+        "r2": 0.056872186438748,
+        "cpd_name": "imatinib"
+      },
+      "649420": {
+        "master_cpd_id": 649420,
+        "r2": 0.0555074902174259,
+        "cpd_name": "PLX-4032"
+      },
+      "688888": {
+        "master_cpd_id": 688888,
+        "r2": 0.0550656795806512,
+        "cpd_name": "BRD-K34222889"
+      },
+      "687735": {
+        "master_cpd_id": 687735,
+        "r2": 0.0545796653441181,
+        "cpd_name": "GSK-J4"
+      },
+      "53556": {
+        "master_cpd_id": 53556,
+        "r2": 0.0539353766838827,
+        "cpd_name": "BRD-K94991378"
+      },
+      "411720": {
+        "master_cpd_id": 411720,
+        "r2": 0.0535082255462691,
+        "cpd_name": "triptolide"
+      },
+      "411831": {
+        "master_cpd_id": 411831,
+        "r2": 0.0531059181728404,
+        "cpd_name": "RG-108"
+      },
+      "267119": {
+        "master_cpd_id": 267119,
+        "r2": 0.0530389960547405,
+        "cpd_name": "CID-5951923"
+      },
+      "639759": {
+        "master_cpd_id": 639759,
+        "r2": 0.0529691344441809,
+        "cpd_name": "GDC-0941"
+      },
+      "417098": {
+        "master_cpd_id": 417098,
+        "r2": 0.052940709892125,
+        "cpd_name": "pandacostat"
+      },
+      "375354": {
+        "master_cpd_id": 375354,
+        "r2": 0.0529075319714341,
+        "cpd_name": "LE-135"
+      },
+      "594665": {
+        "master_cpd_id": 594665,
+        "r2": 0.0516124824535795,
+        "cpd_name": "UNC0638"
+      },
+      "595102": {
+        "master_cpd_id": 595102,
+        "r2": 0.0501472893453865,
+        "cpd_name": "cucurbitacin I"
+      },
+      "12877": {
+        "master_cpd_id": 12877,
+        "r2": 0.0500680130003993,
+        "cpd_name": "BRD6340"
+      },
+      "411714": {
+        "master_cpd_id": 411714,
+        "r2": 0.0497454354183411,
+        "cpd_name": "brefeldin A"
+      },
+      "55307": {
+        "master_cpd_id": 55307,
+        "r2": 0.046493824748903,
+        "cpd_name": "IC-87114"
+      },
+      "119769": {
+        "master_cpd_id": 119769,
+        "r2": 0.0449977146687552,
+        "cpd_name": "BRD-K92856060"
+      },
+      "660819": {
+        "master_cpd_id": 660819,
+        "r2": 0.0443243679040923,
+        "cpd_name": "KHS101"
+      },
+      "660346": {
+        "master_cpd_id": 660346,
+        "r2": 0.0437423485003168,
+        "cpd_name": "bosutinib"
+      },
+      "606256": {
+        "master_cpd_id": 606256,
+        "r2": 0.0429508124978504,
+        "cpd_name": "PLX-4720"
+      },
+      "616355": {
+        "master_cpd_id": 616355,
+        "r2": 0.040513964348523,
+        "cpd_name": "BRD-K51490254"
+      },
+      "349002": {
+        "master_cpd_id": 349002,
+        "r2": 0.0388095120263259,
+        "cpd_name": "vandetanib"
+      },
+      "594664": {
+        "master_cpd_id": 594664,
+        "r2": 0.0362073758109797,
+        "cpd_name": "isoevodiamine"
+      },
+      "444779": {
+        "master_cpd_id": 444779,
+        "r2": 0.035915441798958,
+        "cpd_name": "BRD-K55116708"
+      },
+      "687577": {
+        "master_cpd_id": 687577,
+        "r2": 0.0356653638544504,
+        "cpd_name": "RO4929097"
+      },
+      "63349": {
+        "master_cpd_id": 63349,
+        "r2": 0.0342561980111919,
+        "cpd_name": "itraconazole"
+      },
+      "660322": {
+        "master_cpd_id": 660322,
+        "r2": 0.0339368812292434,
+        "cpd_name": "fluvastatin"
+      },
+      "609061": {
+        "master_cpd_id": 609061,
+        "r2": 0.0338198620435863,
+        "cpd_name": "CIL55A"
+      },
+      "23151": {
+        "master_cpd_id": 23151,
+        "r2": 0.0335786184207477,
+        "cpd_name": "tretinoin"
+      },
+      "660317": {
+        "master_cpd_id": 660317,
+        "r2": 0.0333744919431482,
+        "cpd_name": "SR1001"
+      },
+      "44511": {
+        "master_cpd_id": 44511,
+        "r2": 0.0329542698699991,
+        "cpd_name": "pyrazolanthrone"
+      },
+      "606138": {
+        "master_cpd_id": 606138,
+        "r2": 0.0326873184917076,
+        "cpd_name": "canertinib"
+      },
+      "32372": {
+        "master_cpd_id": 32372,
+        "r2": 0.0312614280921416,
+        "cpd_name": "valdecoxib"
+      },
+      "52123": {
+        "master_cpd_id": 52123,
+        "r2": 0.0309017843182439,
+        "cpd_name": "SB-225002"
+      },
+      "28784": {
+        "master_cpd_id": 28784,
+        "r2": 0.0302645498538502,
+        "cpd_name": "ciclopirox"
+      },
+      "660086": {
+        "master_cpd_id": 660086,
+        "r2": 0.0295319862298913,
+        "cpd_name": "leptomycin B"
+      },
+      "606135": {
+        "master_cpd_id": 606135,
+        "r2": 0.0294398468130206,
+        "cpd_name": "afatinib"
+      },
+      "63578": {
+        "master_cpd_id": 63578,
+        "r2": 0.0294094034171233,
+        "cpd_name": "erastin"
+      },
+      "660230": {
+        "master_cpd_id": 660230,
+        "r2": 0.0288022939785649,
+        "cpd_name": "BRD-K35604418"
+      },
+      "640007": {
+        "master_cpd_id": 640007,
+        "r2": 0.0285662057859713,
+        "cpd_name": "PHA-793887"
+      },
+      "50747": {
+        "master_cpd_id": 50747,
+        "r2": 0.0281836438881182,
+        "cpd_name": "pifithrin-alpha"
+      },
+      "665914": {
+        "master_cpd_id": 665914,
+        "r2": 0.0281540214318503,
+        "cpd_name": "COL-3"
+      },
+      "657183": {
+        "master_cpd_id": 657183,
+        "r2": 0.0281189761494239,
+        "cpd_name": "spautin-1"
+      },
+      "668495": {
+        "master_cpd_id": 668495,
+        "r2": 0.0279973627870721,
+        "cpd_name": "BYL-719"
+      },
+      "679843": {
+        "master_cpd_id": 679843,
+        "r2": 0.0275094767896801,
+        "cpd_name": "HBX-41108"
+      },
+      "442141": {
+        "master_cpd_id": 442141,
+        "r2": 0.0269055368423647,
+        "cpd_name": "BRD-K02251932"
+      },
+      "345712": {
+        "master_cpd_id": 345712,
+        "r2": 0.0267091910351187,
+        "cpd_name": "O-6-benzylguanine"
+      },
+      "58566": {
+        "master_cpd_id": 58566,
+        "r2": 0.0266423607986825,
+        "cpd_name": "BRD-K71935468"
+      },
+      "688975": {
+        "master_cpd_id": 688975,
+        "r2": 0.0266052281480755,
+        "cpd_name": "avicin D"
+      },
+      "39782": {
+        "master_cpd_id": 39782,
+        "r2": 0.026440314279674,
+        "cpd_name": "piperlongumine"
+      },
+      "411833": {
+        "master_cpd_id": 411833,
+        "r2": 0.0263552211405491,
+        "cpd_name": "pluripotin"
+      },
+      "660135": {
+        "master_cpd_id": 660135,
+        "r2": 0.0257504123106921,
+        "cpd_name": "BRD-K97651142"
+      },
+      "639450": {
+        "master_cpd_id": 639450,
+        "r2": 0.0248727530806551,
+        "cpd_name": "ruxolitinib"
+      },
+      "418167": {
+        "master_cpd_id": 418167,
+        "r2": 0.0236856614741451,
+        "cpd_name": "MK-1775"
+      },
+      "25036": {
+        "master_cpd_id": 25036,
+        "r2": 0.0233124941968998,
+        "cpd_name": "gossypol"
+      },
+      "659682": {
+        "master_cpd_id": 659682,
+        "r2": 0.0212251726482076,
+        "cpd_name": "ML320"
+      },
+      "606143": {
+        "master_cpd_id": 606143,
+        "r2": 0.0204632590607345,
+        "cpd_name": "masitinib"
+      },
+      "44503": {
+        "master_cpd_id": 44503,
+        "r2": 0.020118094643892,
+        "cpd_name": "NSC23766"
+      },
+      "660364": {
+        "master_cpd_id": 660364,
+        "r2": 0.0195201438376342,
+        "cpd_name": "docetaxel"
+      },
+      "660332": {
+        "master_cpd_id": 660332,
+        "r2": 0.0186017231507725,
+        "cpd_name": "MK-0752"
+      },
+      "661032": {
+        "master_cpd_id": 661032,
+        "r2": 0.018340885287582,
+        "cpd_name": "sotrastaurin"
+      },
+      "660245": {
+        "master_cpd_id": 660245,
+        "r2": 0.0172436202807553,
+        "cpd_name": "GSK525762A"
+      },
+      "628613": {
+        "master_cpd_id": 628613,
+        "r2": 0.0171608131030291,
+        "cpd_name": "regorafenib"
+      },
+      "606254": {
+        "master_cpd_id": 606254,
+        "r2": 0.0163868097195363,
+        "cpd_name": "SNS-032"
+      },
+      "142931": {
+        "master_cpd_id": 142931,
+        "r2": 0.0146791701220349,
+        "cpd_name": "BRD-K45681478"
+      },
+      "660430": {
+        "master_cpd_id": 660430,
+        "r2": 0.0136054955184948,
+        "cpd_name": "CAL-101"
+      },
+      "660397": {
+        "master_cpd_id": 660397,
+        "r2": 0.0127747218308113,
+        "cpd_name": "rigosertib"
+      },
+      "411820": {
+        "master_cpd_id": 411820,
+        "r2": 0.012046545999851,
+        "cpd_name": "SRT-1720"
+      },
+      "350548": {
+        "master_cpd_id": 350548,
+        "r2": 0.0117036278075973,
+        "cpd_name": "ML029"
+      },
+      "404566": {
+        "master_cpd_id": 404566,
+        "r2": 0.011703406180504,
+        "cpd_name": "BRD-K63431240"
+      },
+      "52582": {
+        "master_cpd_id": 52582,
+        "r2": 0.0113946247654861,
+        "cpd_name": "GSK-3 inhibitor IX"
+      },
+      "609440": {
+        "master_cpd_id": 609440,
+        "r2": 0.0105965834673728,
+        "cpd_name": "PL-DI"
+      },
+      "37190": {
+        "master_cpd_id": 37190,
+        "r2": 0.0100192890232982,
+        "cpd_name": "ouabain"
+      },
+      "61724": {
+        "master_cpd_id": 61724,
+        "r2": 0.0093791612653844,
+        "cpd_name": "BRD-A94377914"
+      },
+      "176181": {
+        "master_cpd_id": 176181,
+        "r2": 0.0090380729720036,
+        "cpd_name": "CIL41"
+      },
+      "689506": {
+        "master_cpd_id": 689506,
+        "r2": 0.0085329699192452,
+        "cpd_name": "BRD-K30748066"
+      },
+      "660327": {
+        "master_cpd_id": 660327,
+        "r2": 0.0072920905790683,
+        "cpd_name": "hyperforin"
+      },
+      "634309": {
+        "master_cpd_id": 634309,
+        "r2": 0.0050133641173333,
+        "cpd_name": "lapatinib"
+      },
+      "418170": {
+        "master_cpd_id": 418170,
+        "r2": 0.0048419141023575,
+        "cpd_name": "tivozanib"
+      },
+      "411724": {
+        "master_cpd_id": 411724,
+        "r2": 0.0042286290959758,
+        "cpd_name": "AA-COCF3"
+      },
+      "639962": {
+        "master_cpd_id": 639962,
+        "r2": 0.0016805991824191,
+        "cpd_name": "SB-525334"
+      },
+      "389297": {
+        "master_cpd_id": 389297,
+        "r2": 0.00020310748867,
+        "cpd_name": "BRD-K11533227"
+      },
+      "50163": {
+        "master_cpd_id": 50163,
+        "r2": -0.0002785670181869,
+        "cpd_name": "cytochalasin B"
+      },
+      "628601": {
+        "master_cpd_id": 628601,
+        "r2": -0.0005858928071099,
+        "cpd_name": "nintedanib"
+      },
+      "401251": {
+        "master_cpd_id": 401251,
+        "r2": -0.0023769717243872,
+        "cpd_name": "BRD-K33514849"
+      },
+      "609091": {
+        "master_cpd_id": 609091,
+        "r2": -0.0026943930047352,
+        "cpd_name": "FQI-2"
+      },
+      "660429": {
+        "master_cpd_id": 660429,
+        "r2": -0.0027380902073599,
+        "cpd_name": "momelotinib"
+      },
+      "660286": {
+        "master_cpd_id": 660286,
+        "r2": -0.0041220068841071,
+        "cpd_name": "SMER-3"
+      },
+      "687720": {
+        "master_cpd_id": 687720,
+        "r2": -0.0042926754146382,
+        "cpd_name": "alvocidib"
+      },
+      "28801": {
+        "master_cpd_id": 28801,
+        "r2": -0.00482099343924,
+        "cpd_name": "epigallocatechin-3-monogallate"
+      },
+      "348992": {
+        "master_cpd_id": 348992,
+        "r2": -0.0051601789138788,
+        "cpd_name": "NVP-BEZ235"
+      },
+      "37479": {
+        "master_cpd_id": 37479,
+        "r2": -0.005382720675432,
+        "cpd_name": "BRD9647"
+      },
+      "19153": {
+        "master_cpd_id": 19153,
+        "r2": -0.0059247461072649,
+        "cpd_name": "BRD9876"
+      },
+      "687714": {
+        "master_cpd_id": 687714,
+        "r2": -0.0063925951119094,
+        "cpd_name": "MI-2"
+      },
+      "660287": {
+        "master_cpd_id": 660287,
+        "r2": -0.0072435761894342,
+        "cpd_name": "NVP-ADW742"
+      },
+      "660314": {
+        "master_cpd_id": 660314,
+        "r2": -0.0077048906551371,
+        "cpd_name": "ML258"
+      },
+      "438776": {
+        "master_cpd_id": 438776,
+        "r2": -0.008738699723653,
+        "cpd_name": "BRD-K64610608"
+      },
+      "418162": {
+        "master_cpd_id": 418162,
+        "r2": -0.00923786295099,
+        "cpd_name": "BRD1812"
+      },
+      "375562": {
+        "master_cpd_id": 375562,
+        "r2": -0.00928289006072,
+        "cpd_name": "CD-1530"
+      },
+      "385240": {
+        "master_cpd_id": 385240,
+        "r2": -0.0099930129571857,
+        "cpd_name": "triazolothiadiazine"
+      },
+      "25393": {
+        "master_cpd_id": 25393,
+        "r2": -0.0133868815870895,
+        "cpd_name": "isoliquiritigenin"
+      },
+      "660207": {
+        "master_cpd_id": 660207,
+        "r2": -0.0142369496544121,
+        "cpd_name": "lomeguatrib"
+      },
+      "417663": {
+        "master_cpd_id": 417663,
+        "r2": -0.0156977893796905,
+        "cpd_name": "CCT036477"
+      },
+      "122255": {
+        "master_cpd_id": 122255,
+        "r2": -0.0161313719408807,
+        "cpd_name": "B02"
+      },
+      "411843": {
+        "master_cpd_id": 411843,
+        "r2": -0.0166044553126763,
+        "cpd_name": "GMX-1778"
+      },
+      "375496": {
+        "master_cpd_id": 375496,
+        "r2": -0.0167876189289221,
+        "cpd_name": "LY-2183240"
+      },
+      "58948": {
+        "master_cpd_id": 58948,
+        "r2": -0.0169600011475751,
+        "cpd_name": "MG-132"
+      },
+      "417987": {
+        "master_cpd_id": 417987,
+        "r2": -0.0175453150361962,
+        "cpd_name": "tosedostat"
+      },
+      "606363": {
+        "master_cpd_id": 606363,
+        "r2": -0.0182630609361571,
+        "cpd_name": "KU-0063794"
+      },
+      "660082": {
+        "master_cpd_id": 660082,
+        "r2": -0.0183226371994502,
+        "cpd_name": "etomoxir"
+      },
+      "609596": {
+        "master_cpd_id": 609596,
+        "r2": -0.0198413073641837,
+        "cpd_name": "TW-37"
+      },
+      "628639": {
+        "master_cpd_id": 628639,
+        "r2": -0.0199109482796573,
+        "cpd_name": "lenvatinib"
+      },
+      "666716": {
+        "master_cpd_id": 666716,
+        "r2": -0.0209995479577845,
+        "cpd_name": "ETP-46464"
+      },
+      "436211": {
+        "master_cpd_id": 436211,
+        "r2": -0.0216646090517232,
+        "cpd_name": "BRD-K19103580"
+      },
+      "651642": {
+        "master_cpd_id": 651642,
+        "r2": -0.0235447497019462,
+        "cpd_name": "BRD-K28456706"
+      },
+      "417452": {
+        "master_cpd_id": 417452,
+        "r2": -0.0245742306374046,
+        "cpd_name": "nakiterpiosin"
+      },
+      "153820": {
+        "master_cpd_id": 153820,
+        "r2": -0.0249630711020065,
+        "cpd_name": "ML050"
+      },
+      "349006": {
+        "master_cpd_id": 349006,
+        "r2": -0.0262046740806462,
+        "cpd_name": "sorafenib"
+      },
+      "606033": {
+        "master_cpd_id": 606033,
+        "r2": -0.026491677378474,
+        "cpd_name": "linifanib"
+      },
+      "375256": {
+        "master_cpd_id": 375256,
+        "r2": -0.0267419083130975,
+        "cpd_name": "CD-437"
+      },
+      "52926": {
+        "master_cpd_id": 52926,
+        "r2": -0.0276593192250624,
+        "cpd_name": "gefitinib"
+      },
+      "362338": {
+        "master_cpd_id": 362338,
+        "r2": -0.0299652707794071,
+        "cpd_name": "SNX-2112"
+      },
+      "467037": {
+        "master_cpd_id": 467037,
+        "r2": -0.0301830688770741,
+        "cpd_name": "bafilomycin A1"
+      },
+      "55512": {
+        "master_cpd_id": 55512,
+        "r2": -0.0310602296573266,
+        "cpd_name": "ciclosporin"
+      },
+      "387472": {
+        "master_cpd_id": 387472,
+        "r2": -0.0326365932954427,
+        "cpd_name": "BRD-K66453893"
+      },
+      "411816": {
+        "master_cpd_id": 411816,
+        "r2": -0.0328228021504848,
+        "cpd_name": "ML203"
+      },
+      "450415": {
+        "master_cpd_id": 450415,
+        "r2": -0.0328650106827644,
+        "cpd_name": "BRD-K52037352"
+      },
+      "660421": {
+        "master_cpd_id": 660421,
+        "r2": -0.0343599480246558,
+        "cpd_name": "silmitasertib"
+      },
+      "27894": {
+        "master_cpd_id": 27894,
+        "r2": -0.0352829133006019,
+        "cpd_name": "simvastatin"
+      },
+      "102193": {
+        "master_cpd_id": 102193,
+        "r2": -0.0360851485180742,
+        "cpd_name": "FQI-1"
+      },
+      "652975": {
+        "master_cpd_id": 652975,
+        "r2": -0.0363190495485011,
+        "cpd_name": "STF-31"
+      },
+      "660433": {
+        "master_cpd_id": 660433,
+        "r2": -0.0367586808026247,
+        "cpd_name": "OSI-027"
+      },
+      "660228": {
+        "master_cpd_id": 660228,
+        "r2": -0.0374809474416115,
+        "cpd_name": "BMS-195614"
+      },
+      "660137": {
+        "master_cpd_id": 660137,
+        "r2": -0.03773759672873,
+        "cpd_name": "Ch-55"
+      },
+      "641721": {
+        "master_cpd_id": 641721,
+        "r2": -0.0392243902518023,
+        "cpd_name": "BRD-K24690302"
+      },
+      "411731": {
+        "master_cpd_id": 411731,
+        "r2": -0.0397527936564979,
+        "cpd_name": "SID 26681509"
+      },
+      "411865": {
+        "master_cpd_id": 411865,
+        "r2": -0.0406657761586608,
+        "cpd_name": "MST-312"
+      },
+      "632103": {
+        "master_cpd_id": 632103,
+        "r2": -0.0410282979117505,
+        "cpd_name": "YK 4-279"
+      },
+      "640157": {
+        "master_cpd_id": 640157,
+        "r2": -0.04117921924174,
+        "cpd_name": "fingolimod"
+      },
+      "28452": {
+        "master_cpd_id": 28452,
+        "r2": -0.0414167693865975,
+        "cpd_name": "curcumin"
+      },
+      "185987": {
+        "master_cpd_id": 185987,
+        "r2": -0.0423141779991574,
+        "cpd_name": "MI-1"
+      },
+      "26956": {
+        "master_cpd_id": 26956,
+        "r2": -0.042735813825967,
+        "cpd_name": "paclitaxel"
+      },
+      "660840": {
+        "master_cpd_id": 660840,
+        "r2": -0.0436987206767762,
+        "cpd_name": "cabozantinib"
+      },
+      "418172": {
+        "master_cpd_id": 418172,
+        "r2": -0.0440660535920262,
+        "cpd_name": "Ko-143"
+      },
+      "640265": {
+        "master_cpd_id": 640265,
+        "r2": -0.045091446343752,
+        "cpd_name": "pazopanib"
+      },
+      "50753": {
+        "master_cpd_id": 50753,
+        "r2": -0.0457718115930457,
+        "cpd_name": "SB-431542"
+      },
+      "616352": {
+        "master_cpd_id": 616352,
+        "r2": -0.046170121280979,
+        "cpd_name": "salermide"
+      },
+      "348997": {
+        "master_cpd_id": 348997,
+        "r2": -0.0477831674250866,
+        "cpd_name": "GW-843682X"
+      },
+      "53705": {
+        "master_cpd_id": 53705,
+        "r2": -0.0493895611363441,
+        "cpd_name": "BIX-01294"
+      },
+      "660318": {
+        "master_cpd_id": 660318,
+        "r2": -0.0501741443835716,
+        "cpd_name": "bardoxolone methyl"
+      },
+      "648987": {
+        "master_cpd_id": 648987,
+        "r2": -0.0502339222737024,
+        "cpd_name": "BRD-K70511574"
+      },
+      "375390": {
+        "master_cpd_id": 375390,
+        "r2": -0.0507160365961653,
+        "cpd_name": "CI-976"
+      },
+      "215497": {
+        "master_cpd_id": 215497,
+        "r2": -0.0525705507751405,
+        "cpd_name": "Mdivi-1"
+      },
+      "33166": {
+        "master_cpd_id": 33166,
+        "r2": -0.0535463065635666,
+        "cpd_name": "prochlorperazine"
+      },
+      "660083": {
+        "master_cpd_id": 660083,
+        "r2": -0.0536867412826869,
+        "cpd_name": "HC-067047"
+      },
+      "660993": {
+        "master_cpd_id": 660993,
+        "r2": -0.0548761928277268,
+        "cpd_name": "R428"
+      },
+      "374755": {
+        "master_cpd_id": 374755,
+        "r2": -0.0568310384775223,
+        "cpd_name": "bendamustine"
+      },
+      "347812": {
+        "master_cpd_id": 347812,
+        "r2": -0.0570833331195924,
+        "cpd_name": "CHIR-99021"
+      },
+      "660890": {
+        "master_cpd_id": 660890,
+        "r2": -0.0573375304854131,
+        "cpd_name": "BRD-M00053801"
+      },
+      "199337": {
+        "master_cpd_id": 199337,
+        "r2": -0.0574359917076989,
+        "cpd_name": "DBeQ"
+      },
+      "640366": {
+        "master_cpd_id": 640366,
+        "r2": -0.0578441995929557,
+        "cpd_name": "WZ4002"
+      },
+      "404070": {
+        "master_cpd_id": 404070,
+        "r2": -0.05832192889319,
+        "cpd_name": "BRD1835"
+      },
+      "660411": {
+        "master_cpd_id": 660411,
+        "r2": -0.0583788473196387,
+        "cpd_name": "KU-60019"
+      },
+      "660331": {
+        "master_cpd_id": 660331,
+        "r2": -0.0589066193719797,
+        "cpd_name": "NVP-231"
+      },
+      "42319": {
+        "master_cpd_id": 42319,
+        "r2": -0.0598644734097778,
+        "cpd_name": "BRD-K26531177"
+      },
+      "660084": {
+        "master_cpd_id": 660084,
+        "r2": -0.0602247743626307,
+        "cpd_name": "IPR-456"
+      },
+      "375594": {
+        "master_cpd_id": 375594,
+        "r2": -0.0606235165109384,
+        "cpd_name": "NSC632839"
+      },
+      "660119": {
+        "master_cpd_id": 660119,
+        "r2": -0.0614462727231857,
+        "cpd_name": "VU0155056"
+      },
+      "688962": {
+        "master_cpd_id": 688962,
+        "r2": -0.0634186584359628,
+        "cpd_name": "PF-4800567 hydrochloride"
+      },
+      "679844": {
+        "master_cpd_id": 679844,
+        "r2": -0.0635368664919946,
+        "cpd_name": "palmostatin B"
+      },
+      "418163": {
+        "master_cpd_id": 418163,
+        "r2": -0.0644893812581758,
+        "cpd_name": "BRD8958"
+      },
+      "375596": {
+        "master_cpd_id": 375596,
+        "r2": -0.0659502430726858,
+        "cpd_name": "pifithrin-mu"
+      },
+      "609332": {
+        "master_cpd_id": 609332,
+        "r2": -0.0710522594188108,
+        "cpd_name": "GANT-61"
+      },
+      "375435": {
+        "master_cpd_id": 375435,
+        "r2": -0.0713924846526454,
+        "cpd_name": "necrostatin-1"
+      },
+      "666910": {
+        "master_cpd_id": 666910,
+        "r2": -0.0718635150500823,
+        "cpd_name": "marinopyrrole A"
+      },
+      "609674": {
+        "master_cpd_id": 609674,
+        "r2": -0.0725637329040467,
+        "cpd_name": "CHM-1"
+      },
+      "622911": {
+        "master_cpd_id": 622911,
+        "r2": -0.0736762774284981,
+        "cpd_name": "BMS-345541"
+      },
+      "660201": {
+        "master_cpd_id": 660201,
+        "r2": -0.0737532467273557,
+        "cpd_name": "necrostatin-7"
+      },
+      "660779": {
+        "master_cpd_id": 660779,
+        "r2": -0.0742704244459167,
+        "cpd_name": "KX2-391"
+      },
+      "606144": {
+        "master_cpd_id": 606144,
+        "r2": -0.0743046778385637,
+        "cpd_name": "ZSTK474"
+      },
+      "417415": {
+        "master_cpd_id": 417415,
+        "r2": -0.0755825002525207,
+        "cpd_name": "cyanoquinoline 11"
+      },
+      "660432": {
+        "master_cpd_id": 660432,
+        "r2": -0.0765760100448467,
+        "cpd_name": "WP1130"
+      },
+      "687579": {
+        "master_cpd_id": 687579,
+        "r2": -0.0768169443593714,
+        "cpd_name": "MLN2480"
+      },
+      "50737": {
+        "master_cpd_id": 50737,
+        "r2": -0.0783273118799979,
+        "cpd_name": "tacrolimus"
+      },
+      "411726": {
+        "master_cpd_id": 411726,
+        "r2": -0.079774900523334,
+        "cpd_name": "16-beta-bromoandrosterone"
+      },
+      "606034": {
+        "master_cpd_id": 606034,
+        "r2": -0.0800844369115063,
+        "cpd_name": "veliparib"
+      },
+      "609062": {
+        "master_cpd_id": 609062,
+        "r2": -0.0827696991076157,
+        "cpd_name": "SCH-529074"
+      },
+      "50769": {
+        "master_cpd_id": 50769,
+        "r2": -0.0830800515406472,
+        "cpd_name": "staurosporine"
+      },
+      "417982": {
+        "master_cpd_id": 417982,
+        "r2": -0.083384513285796,
+        "cpd_name": "BIBR-1532"
+      },
+      "660227": {
+        "master_cpd_id": 660227,
+        "r2": -0.0844124929824103,
+        "cpd_name": "JW-480"
+      },
+      "668858": {
+        "master_cpd_id": 668858,
+        "r2": -0.0847129386261897,
+        "cpd_name": "SR8278"
+      },
+      "45093": {
+        "master_cpd_id": 45093,
+        "r2": -0.0853931204546933,
+        "cpd_name": "N9-isopropylolomoucine"
+      },
+      "28172": {
+        "master_cpd_id": 28172,
+        "r2": -0.0886304869067391,
+        "cpd_name": "parbendazole"
+      },
+      "362063": {
+        "master_cpd_id": 362063,
+        "r2": -0.088941671763317,
+        "cpd_name": "QW-BI-011"
+      },
+      "26914": {
+        "master_cpd_id": 26914,
+        "r2": -0.0903326564102811,
+        "cpd_name": "trifluoperazine"
+      },
+      "52576": {
+        "master_cpd_id": 52576,
+        "r2": -0.0916624420489899,
+        "cpd_name": "purmorphamine"
+      },
+      "340501": {
+        "master_cpd_id": 340501,
+        "r2": -0.0920153801480956,
+        "cpd_name": "VX-680"
+      },
+      "660304": {
+        "master_cpd_id": 660304,
+        "r2": -0.0922775036693375,
+        "cpd_name": "XL765"
+      },
+      "52133": {
+        "master_cpd_id": 52133,
+        "r2": -0.0953541487736829,
+        "cpd_name": "PD 153035"
+      },
+      "417818": {
+        "master_cpd_id": 417818,
+        "r2": -0.0967309137465614,
+        "cpd_name": "tamatinib"
+      },
+      "606471": {
+        "master_cpd_id": 606471,
+        "r2": -0.0976270392463241,
+        "cpd_name": "GSK1059615"
+      },
+      "464458": {
+        "master_cpd_id": 464458,
+        "r2": -0.0980193468856239,
+        "cpd_name": "tandutinib"
+      },
+      "660412": {
+        "master_cpd_id": 660412,
+        "r2": -0.0988185876131009,
+        "cpd_name": "BIRB-796"
+      },
+      "32653": {
+        "master_cpd_id": 32653,
+        "r2": -0.0993349972728374,
+        "cpd_name": "niclosamide"
+      },
+      "411824": {
+        "master_cpd_id": 411824,
+        "r2": -0.0993984582971325,
+        "cpd_name": "CAY10594"
+      },
+      "46792": {
+        "master_cpd_id": 46792,
+        "r2": -0.1001125499124786,
+        "cpd_name": "importazole"
+      },
+      "596868": {
+        "master_cpd_id": 596868,
+        "r2": -0.1007749889771655,
+        "cpd_name": "BRD-K50799972"
+      },
+      "636425": {
+        "master_cpd_id": 636425,
+        "r2": -0.1078005312997101,
+        "cpd_name": "erismodegib"
+      },
+      "425733": {
+        "master_cpd_id": 425733,
+        "r2": -0.1100115981186855,
+        "cpd_name": "BRD-K71781559"
+      },
+      "3588": {
+        "master_cpd_id": 3588,
+        "r2": -0.1131596323527006,
+        "cpd_name": "BRD4132"
+      },
+      "30371": {
+        "master_cpd_id": 30371,
+        "r2": -0.1147498079022657,
+        "cpd_name": "methotrexate"
+      },
+      "26972": {
+        "master_cpd_id": 26972,
+        "r2": -0.1176250895689169,
+        "cpd_name": "tamoxifen"
+      },
+      "58339": {
+        "master_cpd_id": 58339,
+        "r2": -0.1176504852946813,
+        "cpd_name": "KU-55933"
+      },
+      "411719": {
+        "master_cpd_id": 411719,
+        "r2": -0.1208922022474761,
+        "cpd_name": "PF-750"
+      },
+      "659993": {
+        "master_cpd_id": 659993,
+        "r2": -0.1209282080046666,
+        "cpd_name": "tigecycline"
+      },
+      "687715": {
+        "master_cpd_id": 687715,
+        "r2": -0.1219571791753501,
+        "cpd_name": "BRD-K42260513"
+      },
+      "609639": {
+        "master_cpd_id": 609639,
+        "r2": -0.1233026050726813,
+        "cpd_name": "AZD8055"
+      },
+      "628614": {
+        "master_cpd_id": 628614,
+        "r2": -0.1235649707941276,
+        "cpd_name": "WZ8040"
+      },
+      "609121": {
+        "master_cpd_id": 609121,
+        "r2": -0.1237852538595977,
+        "cpd_name": "darinaparsin"
+      },
+      "660073": {
+        "master_cpd_id": 660073,
+        "r2": -0.1316972631532877,
+        "cpd_name": "PF-543"
+      },
+      "622913": {
+        "master_cpd_id": 622913,
+        "r2": -0.1368841099631237,
+        "cpd_name": "CAY10576"
+      },
+      "660778": {
+        "master_cpd_id": 660778,
+        "r2": -0.1370178401919121,
+        "cpd_name": "birinapant"
+      },
+      "687578": {
+        "master_cpd_id": 687578,
+        "r2": -0.1390576232932493,
+        "cpd_name": "dinaciclib"
+      },
+      "58455": {
+        "master_cpd_id": 58455,
+        "r2": -0.1406016925069215,
+        "cpd_name": "AM-580"
+      },
+      "676728": {
+        "master_cpd_id": 676728,
+        "r2": -0.1431683049935312,
+        "cpd_name": "JW-74"
+      },
+      "435086": {
+        "master_cpd_id": 435086,
+        "r2": -0.1432809004145578,
+        "cpd_name": "BRD-K04800985"
+      },
+      "608999": {
+        "master_cpd_id": 608999,
+        "r2": -0.1443843476902035,
+        "cpd_name": "EX-527"
+      },
+      "606136": {
+        "master_cpd_id": 606136,
+        "r2": -0.1488066608905378,
+        "cpd_name": "cediranib"
+      },
+      "182395": {
+        "master_cpd_id": 182395,
+        "r2": -0.1633882514063317,
+        "cpd_name": "NSC30930"
+      },
+      "411832": {
+        "master_cpd_id": 411832,
+        "r2": -0.1640494169965753,
+        "cpd_name": "PAC-1"
+      },
+      "609058": {
+        "master_cpd_id": 609058,
+        "r2": -0.1680689065795066,
+        "cpd_name": "NPC-26"
+      },
+      "96171": {
+        "master_cpd_id": 96171,
+        "r2": -0.1701363150308472,
+        "cpd_name": "ML031"
+      },
+      "1788": {
+        "master_cpd_id": 1788,
+        "r2": -0.1754644258334555,
+        "cpd_name": "CIL55"
+      },
+      "26874": {
+        "master_cpd_id": 26874,
+        "r2": -0.175977283079438,
+        "cpd_name": "azacitidine"
+      },
+      "411774": {
+        "master_cpd_id": 411774,
+        "r2": -0.1848719398412193,
+        "cpd_name": "neopeltolide"
+      },
+      "609056": {
+        "master_cpd_id": 609056,
+        "r2": -0.196468220305617,
+        "cpd_name": "ELCPK"
+      },
+      "431987": {
+        "master_cpd_id": 431987,
+        "r2": -0.2034453043256864,
+        "cpd_name": "BRD-K48334597"
+      },
+      "255961": {
+        "master_cpd_id": 255961,
+        "r2": -0.204701637174391,
+        "cpd_name": "ML083"
+      },
+      "594663": {
+        "master_cpd_id": 594663,
+        "r2": -0.2224049520019613,
+        "cpd_name": "PRIMA-1-Met"
+      },
+      "410270": {
+        "master_cpd_id": 410270,
+        "r2": -0.2270388979641614,
+        "cpd_name": "BRD-K13999467"
+      },
+      "411827": {
+        "master_cpd_id": 411827,
+        "r2": -0.2315113207531319,
+        "cpd_name": "Compound 1541A"
+      },
+      "660342": {
+        "master_cpd_id": 660342,
+        "r2": -0.2430225923428561,
+        "cpd_name": "BRD-A05715709"
+      },
+      "687694": {
+        "master_cpd_id": 687694,
+        "r2": -0.2562321945753243,
+        "cpd_name": "istradefylline"
+      },
+      "635882": {
+        "master_cpd_id": 635882,
+        "r2": -0.2651492069907995,
+        "cpd_name": "SGX-523"
+      },
+      "351043": {
+        "master_cpd_id": 351043,
+        "r2": -0.2675432575106211,
+        "cpd_name": "temozolomide"
+      },
+      "660985": {
+        "master_cpd_id": 660985,
+        "r2": -0.2786843871098303,
+        "cpd_name": "pitstop2"
+      },
+      "438345": {
+        "master_cpd_id": 438345,
+        "r2": -0.2883506513618,
+        "cpd_name": "BRD-K01737880"
+      },
+      "411716": {
+        "master_cpd_id": 411716,
+        "r2": -0.2897744493232466,
+        "cpd_name": "AGK-2"
+      },
+      "411734": {
+        "master_cpd_id": 411734,
+        "r2": -0.3242862654722924,
+        "cpd_name": "NSC 74859"
+      },
+      "688138": {
+        "master_cpd_id": 688138,
+        "r2": -0.3258426152843303,
+        "cpd_name": "SZ4TA2"
+      },
+      "23256": {
+        "master_cpd_id": 23256,
+        "r2": -0.3641434199821786,
+        "cpd_name": "betulinic acid"
+      },
+      "608062": {
+        "master_cpd_id": 608062,
+        "r2": -0.3702442356698533,
+        "cpd_name": "BRD8899"
+      },
+      "411727": {
+        "master_cpd_id": 411727,
+        "r2": -0.3927320548504076,
+        "cpd_name": "PRL-3 inhibitor I"
+      },
+      "635576": {
+        "master_cpd_id": 635576,
+        "r2": -0.3938939020584526,
+        "cpd_name": "UNC0321"
+      },
+      "463198": {
+        "master_cpd_id": 463198,
+        "r2": -0.403647836524046,
+        "cpd_name": "BRD-K37390332"
+      },
+      "402775": {
+        "master_cpd_id": 402775,
+        "r2": -0.415396963934484,
+        "cpd_name": "BRD-K14844214"
+      },
+      "687661": {
+        "master_cpd_id": 687661,
+        "r2": -0.4301786587502908,
+        "cpd_name": "BRD-K51831558"
+      },
+      "416777": {
+        "master_cpd_id": 416777,
+        "r2": -0.4381417983180036,
+        "cpd_name": "SJ-172550"
+      },
+      "661033": {
+        "master_cpd_id": 661033,
+        "r2": -0.4691166832396152,
+        "cpd_name": "A-804598"
+      },
+      "375487": {
+        "master_cpd_id": 375487,
+        "r2": -0.4931404211495162,
+        "cpd_name": "AC55649"
+      },
+      "659226": {
+        "master_cpd_id": 659226,
+        "r2": -0.5135205975953608,
+        "cpd_name": "VAF-347"
+      },
+      "659371": {
+        "master_cpd_id": 659371,
+        "r2": -0.6146218712346198,
+        "cpd_name": "BRD-A02303741"
+      },
+      "410703": {
+        "master_cpd_id": 410703,
+        "r2": -0.6413706225218505,
+        "cpd_name": "BRD-K96970199"
+      },
+      "660085": {
+        "master_cpd_id": 660085,
+        "r2": -0.6454082684067617,
+        "cpd_name": "KH-CB19"
+      },
+      "600054": {
+        "master_cpd_id": 600054,
+        "r2": -0.8008424107021351,
+        "cpd_name": "BRD-K17060750"
+      },
+      "682993": {
+        "master_cpd_id": 682993,
+        "r2": -0.8595181741617601,
+        "cpd_name": "JW-55"
+      },
+      "44554": {
+        "master_cpd_id": 44554,
+        "r2": -1.0053628504736305,
+        "cpd_name": "C6-ceramide"
+      },
+      "27872": {
+        "master_cpd_id": 27872,
+        "r2": -1.1328308378882894,
+        "cpd_name": "sildenafil"
+      },
+      "609681": {
+        "master_cpd_id": 609681,
+        "r2": -1.186122574742318,
+        "cpd_name": "QS-11"
+      },
+      "446716": {
+        "master_cpd_id": 446716,
+        "r2": -4.677861691480175,
+        "cpd_name": "BRD-K34485477"
+      },
+      "660064": {
+        "master_cpd_id": 660064,
+        "r2": -4.906902461402721,
+        "cpd_name": "BRD-K34099515"
+      }
+    },
+    "top_gene_signatures": [
+      {
+        "gene": "MYOF (26509)",
+        "n_drugs": 92
+      },
+      {
+        "gene": "TNFRSF12A (51330)",
+        "n_drugs": 82
+      },
+      {
+        "gene": "SDC4 (6385)",
+        "n_drugs": 74
+      },
+      {
+        "gene": "CCN1 (3491)",
+        "n_drugs": 71
+      },
+      {
+        "gene": "PRSS23 (11098)",
+        "n_drugs": 69
+      },
+      {
+        "gene": "WWTR1 (25937)",
+        "n_drugs": 61
+      },
+      {
+        "gene": "LAMB2 (3913)",
+        "n_drugs": 60
+      },
+      {
+        "gene": "GPX8 (493869)",
+        "n_drugs": 59
+      },
+      {
+        "gene": "NQO1 (1728)",
+        "n_drugs": 58
+      },
+      {
+        "gene": "ITGA3 (3675)",
+        "n_drugs": 56
+      },
+      {
+        "gene": "AMOTL2 (51421)",
+        "n_drugs": 55
+      },
+      {
+        "gene": "PPIC (5480)",
+        "n_drugs": 55
+      }
+    ]
+  },
+  "prompt_profile": {
+    "feature_limit": 6,
+    "neighbor_limit": 5,
+    "fingerprint_limit": 8,
+    "gene_limit": 8,
+    "include_feature_smarts": true,
+    "include_feature_examples": true,
+    "word_limit": 550
+  },
+  "generation_profile": {
+    "max_new_tokens": 1200,
+    "temperature": 0.0,
+    "top_p": 0.9,
+    "repetition_penalty": 1.02,
+    "no_repeat_ngram_size": 0,
+    "context_margin": 32
+  },
+  "torch_version": "2.10.0+cu128",
+  "cuda_available": true,
+  "device_count": 1,
+  "devices": [
+    {
+      "index": 0,
+      "name": "NVIDIA A100-SXM4-80GB",
+      "total_memory": 85093777408
+    }
+  ],
+  "finished_at_unix": 1777879749.952333,
+  "status": "completed",
+  "n_reports_written": 24
+}

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py", line 1161, in <module>
+    main()
+  File "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py", line 1049, in main
+    model = load_model_for_generation(
+  File "/sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py", line 912, in load_model_for_generation
+    model = AutoModelForCausalLM.from_pretrained(
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 374, in from_pretrained
+    return model_class.from_pretrained(
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/transformers/modeling_utils.py", line 4072, in from_pretrained
+    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)
+  File "/sc/arion/work/cuiz02/conda-envs/envs/drug/lib/python3.10/site-packages/transformers/modeling_utils.py", line 4179, in _load_pretrained_model
+    file_pointer = safe_open(file, framework="pt", device="cpu")
+FileNotFoundError: No such file or directory: /sc/arion/scratch/cuiz02/hf_cache/transformers/models--meta-llama--Llama-3.3-70B-Instruct/snapshots/6f6073b423013f6a7d4d9f39144961bfbfbc386b/model-00001-of-00030.safetensors

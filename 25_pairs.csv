@@ -1,0 +1,26 @@
+report_id,group,cpd_name,ModelID,cell_line_name,lineage
+1,A_sanity_check,AZD7762,ACH-000201,A-204,Kidney
+2,A_sanity_check,SCH-79797,ACH-000786,Daudi,Lymphoid
+3,A_sanity_check,obatoclax,ACH-000786,Daudi,Lymphoid
+4,A_sanity_check,obatoclax,ACH-000657,A2780,Ovary/Fallopian Tube
+5,A_sanity_check,obatoclax,ACH-000395,NCI-H520,Lung
+6,A_sanity_check,obatoclax,ACH-000201,A-204,Kidney
+7,A_sanity_check,doxorubicin,ACH-000847,HGC-27,Esophagus/Stomach
+8,A_sanity_check,doxorubicin,ACH-000786,Daudi,Lymphoid
+9,A_sanity_check,doxorubicin,ACH-000657,A2780,Ovary/Fallopian Tube
+10,A_sanity_check,doxorubicin,ACH-000395,NCI-H520,Lung
+11,B_outlier,N9-isopropylolomoucine,ACH-000537,SNU-761,Liver
+12,B_outlier,chlorambucil,ACH-000910,MDA-MB-453,Breast
+13,B_outlier,NSC23766,ACH-000837,NCI-H322,Lung
+14,B_outlier,ML050,ACH-000846,FaDu,Head and Neck
+15,B_outlier,BRD1835,ACH-000006,MONO-MAC-6,Myeloid
+16,B_outlier,AM-580,ACH-000304,WM-115,Skin
+17,B_outlier,ML203,ACH-000711,JIMT-1,Breast
+18,B_outlier,BRD-K51490254,ACH-000806,L-540,Lymphoid
+19,B_outlier,N9-isopropylolomoucine,ACH-000940,AN3 CA,Uterus
+20,B_outlier,Ko-143,ACH-000173,JHUEM-3,Uterus
+21,C_generalization,AZD7762,ACH-000835,GCT,Soft Tissue
+22,C_generalization,AZD7762,ACH-000092,NCI-H2452,Pleura
+23,C_generalization,AZD7762,ACH-000018,T24,Bladder/Urinary Tract
+24,C_generalization,AZD7762,ACH-000129,NCI-H1341,Cervix
+25,C_generalization,AZD7762,ACH-000141,SNU-308,Biliary Tract

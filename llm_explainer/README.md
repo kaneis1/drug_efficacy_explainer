@@ -107,7 +107,7 @@ space, as a separate deliverable alongside the standard 25-case bundle):
   --per-drug-r2 results_ic50/rf_plots/per_drug_r2.csv \
   --gene-signatures results_ic50/rf_plots/gene_signature_counts.csv \
   --target-label 'log10(IC50)' \
-  --selection-mode from_csv \
+   --selection-mode from_csv \
   --selection-csv llm_explainer/knn_curated_ic50.csv \
   --num-reports 0 \
   --out-jsonl llm_explainer/shap_sample_reports_ic50_knn50.jsonl \

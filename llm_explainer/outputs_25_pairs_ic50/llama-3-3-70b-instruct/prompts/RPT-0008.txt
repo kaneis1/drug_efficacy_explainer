@@ -1,0 +1,95 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. For the response target in the prompt, lower values mean greater sensitivity and higher values mean greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher target values/resistance and negative SHAP values push toward lower target values/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0008 - doxorubicin on DAUDI
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of doxorubicin on DAUDI using observed log10(IC50), the RF-predicted log10(IC50), and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher log10(IC50)/resistance or lower log10(IC50)/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0008
+- evidence_id: SHAP-0008
+- drug_name: doxorubicin
+- drug_id: 36599
+- gene_target: TOP2A
+- mechanism: inhibitor of topoisomerase II
+- per_drug_cv_r2: 0.2706894218718334
+- cell_line: DAUDI
+- tissue: haematopoietic and lymphoid tissue
+- histology: lymphoid neoplasm
+- subtype: Burkitt lymphoma
+- target_label: log10(IC50)
+- observed_log10_ic50: -2.3904
+- model_predicted_log10_ic50: -0.8297
+- prediction_error: -1.5607
+- abs_error: 1.5607
+- global_mean_log10_ic50: 0.6392
+- interpretation: more sensitive than the model predicted
+- selection_reason: Manifest 25_pairs.csv row 8 (A_sanity_check): doxorubicin on Daudi / ACH-000786 (Lymphoid); observed log10(IC50)=-2.3904.
+
+Drug cohort context:
+- n=786 | mean_log10_ic50=-0.6755 | q10=-1.7129 | median=-0.6206 | q90=0.1786 | sample_percentile=1.8
+Cell cohort context:
+- n=333 | mean_log10_ic50=0.3512 | q10=-1.3650 | median=0.4756 | q90=1.6283 | sample_percentile=3.9
+
+Top TreeSHAP features:
+1. fp_0329 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.7667 | abs_shap=0.7667 | value=1.0000 | pct_drugs=5.0 | SMARTS=[#6]-[#7]-[#6](:[#6]:[#6]):[#6]:[#6] | example_drugs=NSC23766, PD 153035, gefitinib | note=representative SMARTS `[#6]-[#7]-[#6](:[#6]:[#6]):[#6]:[#6]`; present in 5.0% of CTRPv2 compounds; example compounds: NSC23766, PD 153035, gefitinib
+2. CCN1 (3491) | type=gene_expression | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.4748 | abs_shap=0.4748 | value=0.6288 | z=-1.50 | supporting_drugs=71 | note=below the cross-cell-line mean; recurs in 71 predictable-drug RF signatures
+3. fp_0141 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.1001 | abs_shap=0.1001 | value=0.0000 | pct_drugs=1.5 | SMARTS=[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7] | example_drugs=dexamethasone, austocystin D, daporinad | note=representative SMARTS `[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7]`; present in 1.5% of CTRPv2 compounds; example compounds: dexamethasone, austocystin D, daporinad
+4. fp_0322 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0907 | abs_shap=0.0907 | value=1.0000 | pct_drugs=15.0 | SMARTS=[#8]-[#6](:[#6]):[#6] | example_drugs=BRD9876, tamoxifen, BRD9647 | note=representative SMARTS `[#8]-[#6](:[#6]):[#6]`; present in 15.0% of CTRPv2 compounds; example compounds: BRD9876, tamoxifen, BRD9647
+5. fp_0535 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0679 | abs_shap=0.0679 | value=1.0000 | pct_drugs=1.7 | SMARTS=[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6] | example_drugs=BRD4132, BRD6340, parbendazole | note=representative SMARTS `[#6]:[#7]:[#6](:[#6](:[#7]):[#6]):[#6]:[#6]`; present in 1.7% of CTRPv2 compounds; example compounds: BRD4132, BRD6340, parbendazole
+6. fp_0522 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0535 | abs_shap=0.0535 | value=1.0000 | pct_drugs=1.0 | SMARTS=[#6]-[#6@@H](-[#6])/[#6]=[#6](\[#6])-[#6] | example_drugs=manumycin A, 16-beta-bromoandrosterone, cyanoquinoline 11 | note=representative SMARTS `[#6]-[#6@@H](-[#6])/[#6]=[#6](\[#6])-[#6]`; present in 1.0% of CTRPv2 compounds; example compounds: manumycin A, 16-beta-bromoandrosterone, cyanoquinoline 11
+
+Same-drug cohort examples:
+1. cell=NCIH209 | tissue=lung | auc=-3.5521 | profile=more sensitive
+2. cell=OVCAR5 | tissue= | auc=-3.2031 | profile=more sensitive
+3. cell=KATOIII | tissue=stomach | auc=1.9136 | profile=more resistant
+4. cell=HCC1171 | tissue=lung | auc=2.3146 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=GMX-1778 | target=NAMPT | auc=-3.6265 | profile=more sensitive
+2. drug=azacitidine | target=DNMT1 | auc=-3.6116 | profile=more sensitive
+3. drug=thalidomide | target=CRBN | auc=2.9281 | profile=more resistant
+4. drug=AT-406 | target=XIAP | auc=3.4980 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=181811, n_features=2024, train_r2=0.4042, train_rmse=1.0264, train_corr=0.6385. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.5459.
+- N-estimator tuning best row: max_depth=10, n_estimators=235, mean_r2=0.3803, std_r2=0.0031.
+- Top global fingerprint features: fp_0141 (0.11630), fp_0513 (0.04974), fp_0535 (0.03781), fp_0017 (0.03749), fp_0723 (0.03716), fp_0071 (0.03714), fp_0777 (0.03127), fp_0518 (0.02657).
+- Most common genes across predictable per-drug models: MYOF (26509) (92 drugs), TNFRSF12A (51330) (82 drugs), SDC4 (6385) (74 drugs), CCN1 (3491) (71 drugs), PRSS23 (11098) (69 drugs), WWTR1 (25937) (61 drugs), LAMB2 (3913) (60 drugs), GPX8 (493869) (59 drugs).
+- Per-drug cross-validated predictability for doxorubicin: R2=0.2707.
+- Cell subtype metadata is available: Burkitt lymphoma.
+
+Write one grounded markdown report with the required section headings.

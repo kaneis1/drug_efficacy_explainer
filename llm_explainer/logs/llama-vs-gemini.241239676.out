@@ -1,0 +1,43 @@
+Sender: LSF System <lsfadmin@lg05e04>
+Subject: Job 241239676: <llama_vs_gemini_8b> in cluster <chimera> Done
+
+Job <llama_vs_gemini_8b> was submitted from host <lg03a01> by user <cuiz02> in cluster <chimera> at Mon May  4 03:19:17 2026
+Job was executed on host(s) <4*lg05e04>, in queue <gpuexpress>, as user <cuiz02> in cluster <chimera> at Mon May  4 03:19:50 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Mon May  4 03:19:50 2026
+Terminated at Mon May  4 03:20:43 2026
+Results reported at Mon May  4 03:20:43 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/llama_vs_gemini_eval.py --models Meta-Llama-3.1-8B-Instruct --temperature 0 --max-new-tokens 384 --out-md llm_explainer/llama_vs_gemini_azd7762_a204_8b.md --prompt-dir llm_explainer/llama_vs_gemini_azd7762_a204_8b_prompts
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   56.00 sec.
+    Max Memory :                                 1233 MB
+    Average Memory :                             784.33 MB
+    Total Requested Memory :                     262144.00 MB
+    Delta Memory :                               260911.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                14
+    Run time :                                   53 sec.
+    Turnaround time :                            86 sec.
+
+The output (if any) follows:
+
+Wrote Markdown comparison: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/llama_vs_gemini_azd7762_a204_8b.md
+Wrote rendered prompts under: /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/llama_vs_gemini_azd7762_a204_8b_prompts
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/llama-vs-gemini.241239676.err> for stderr output of this job.
+

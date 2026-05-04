@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@lg07c10>
+Subject: Job 241239680: <llm_25_pairs_8b_long> in cluster <chimera> Done
+
+Job <llm_25_pairs_8b_long> was submitted from host <lg03a01> by user <cuiz02> in cluster <chimera> at Mon May  4 03:21:35 2026
+Job was executed on host(s) <4*lg07c10>, in queue <gpuexpress>, as user <cuiz02> in cluster <chimera> at Mon May  4 03:21:40 2026
+</hpc/users/cuiz02> was used as the home directory.
+</sc/arion/projects/lin_lab/complexbehavior/drug_efficacy> was used as the working directory.
+Started at Mon May  4 03:21:40 2026
+Terminated at Mon May  4 03:29:11 2026
+Results reported at Mon May  4 03:29:11 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/sc/arion/work/cuiz02/conda-envs/envs/drug/bin/python /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/generate_reports.py --model-key Meta-Llama-3.1-8B-Instruct --reports /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/shap_reports_25_pairs_ic50.jsonl --results-root /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/results_ic50 --output-root /sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/outputs_25_pairs_ic50 --temperature 0 --overwrite --max-new-tokens 1200
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   464.00 sec.
+    Max Memory :                                 1292 MB
+    Average Memory :                             1214.54 MB
+    Total Requested Memory :                     262144.00 MB
+    Delta Memory :                               260852.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                14
+    Run time :                                   451 sec.
+    Turnaround time :                            456 sec.
+
+The output (if any) follows:
+
+
+
+PS:
+
+Read file </sc/arion/projects/lin_lab/complexbehavior/drug_efficacy/llm_explainer/logs/25-pairs-reports.241239680.err> for stderr output of this job.
+

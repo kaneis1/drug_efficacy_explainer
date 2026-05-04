@@ -1,0 +1,94 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. For the response target in the prompt, lower values mean greater sensitivity and higher values mean greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher target values/resistance and negative SHAP values push toward lower target values/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0022 - AZD7762 on NCIH2452
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of AZD7762 on NCIH2452 using observed log10(IC50), the RF-predicted log10(IC50), and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher log10(IC50)/resistance or lower log10(IC50)/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0022
+- evidence_id: SHAP-0022
+- drug_name: AZD7762
+- drug_id: 660777
+- gene_target: CHEK1;CHEK2
+- mechanism: inhibitor of checkpoint kinases 1 and 2
+- per_drug_cv_r2: 0.205292648700912
+- cell_line: NCIH2452
+- tissue: pleura
+- histology: mesothelioma
+- subtype: n/a
+- target_label: log10(IC50)
+- observed_log10_ic50: -0.6016
+- model_predicted_log10_ic50: -0.3125
+- prediction_error: -0.2892
+- abs_error: 0.2892
+- global_mean_log10_ic50: 0.6392
+- interpretation: close to the model prediction and cohort baselines
+- selection_reason: Manifest 25_pairs.csv row 22 (C_generalization): AZD7762 on NCI-H2452 / ACH-000092 (Pleura); observed log10(IC50)=-0.6016.
+
+Drug cohort context:
+- n=783 | mean_log10_ic50=-0.3569 | q10=-1.1432 | median=-0.4246 | q90=0.4819 | sample_percentile=37.4
+Cell cohort context:
+- n=236 | mean_log10_ic50=0.8693 | q10=-0.8763 | median=1.0943 | q90=2.1634 | sample_percentile=13.1
+
+Top TreeSHAP features:
+1. fp_0141 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.7210 | abs_shap=0.7210 | value=1.0000 | pct_drugs=1.5 | SMARTS=[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7] | example_drugs=dexamethasone, austocystin D, daporinad | note=representative SMARTS `[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7]`; present in 1.5% of CTRPv2 compounds; example compounds: dexamethasone, austocystin D, daporinad
+2. fp_0157 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.3084 | abs_shap=0.3084 | value=1.0000 | pct_drugs=8.9 | SMARTS=[#6]-[#6](-[#6])-[#7] | example_drugs=CIL55, BRD4132, phloretin | note=representative SMARTS `[#6]-[#6](-[#6])-[#7]`; present in 8.9% of CTRPv2 compounds; example compounds: CIL55, BRD4132, phloretin
+3. fp_0032 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.1471 | abs_shap=0.1471 | value=1.0000 | pct_drugs=3.5 | SMARTS=[#6]:[#6](:[#7])-[#6](:[#6]:[#6]):[#6]:[#6] | example_drugs=SB-431542, apicidin, MK-2206 | note=representative SMARTS `[#6]:[#6](:[#7])-[#6](:[#6]:[#6]):[#6]:[#6]`; present in 3.5% of CTRPv2 compounds; example compounds: SB-431542, apicidin, MK-2206
+4. fp_0994 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0709 | abs_shap=0.0709 | value=0.0000 | pct_drugs=2.3 | SMARTS=[#7]-[#6](:[#6]):[#6] | example_drugs=NSC23766, compound 1B, BRD-K92856060 | note=representative SMARTS `[#7]-[#6](:[#6]):[#6]`; present in 2.3% of CTRPv2 compounds; example compounds: NSC23766, compound 1B, BRD-K92856060
+5. fp_0876 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0457 | abs_shap=0.0457 | value=0.0000 | pct_drugs=1.5 | SMARTS=[#6]:[#6]:[#6]:[#6](:[#16])-[#7+] | example_drugs=triptolide, cucurbitacin I, NPC-26 | note=representative SMARTS `[#6]:[#6]:[#6]:[#6](:[#16])-[#7+]`; present in 1.5% of CTRPv2 compounds; example compounds: triptolide, cucurbitacin I, NPC-26
+6. fp_0611 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0437 | abs_shap=0.0437 | value=1.0000 | pct_drugs=1.2 | SMARTS=[#6](-[#6@@H])(=[#8])-[#6@H] | example_drugs=methotrexate, sirolimus, oligomycin A | note=representative SMARTS `[#6](-[#6@@H])(=[#8])-[#6@H]`; present in 1.2% of CTRPv2 compounds; example compounds: methotrexate, sirolimus, oligomycin A
+
+Same-drug cohort examples:
+1. cell=MOLM13 | tissue=haematopoietic and lymphoid tissue | auc=-3.6971 | profile=more sensitive
+2. cell=MFE319 | tissue=endometrium | auc=-3.4999 | profile=more sensitive
+3. cell=MALME3M | tissue=skin | auc=3.0916 | profile=more resistant
+4. cell=MKN45 | tissue=stomach | auc=3.2030 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=GSK461364 | target=PLK1 | auc=-3.5147 | profile=more sensitive
+2. drug=FQI-1 | target=n/a | auc=-2.9172 | profile=more sensitive
+3. drug=BRD8899 | target=STK33 | auc=3.5973 | profile=more resistant
+4. drug=KU-55933 | target=ATM | auc=3.8472 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=181811, n_features=2024, train_r2=0.4042, train_rmse=1.0264, train_corr=0.6385. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.5459.
+- N-estimator tuning best row: max_depth=10, n_estimators=235, mean_r2=0.3803, std_r2=0.0031.
+- Top global fingerprint features: fp_0141 (0.11630), fp_0513 (0.04974), fp_0535 (0.03781), fp_0017 (0.03749), fp_0723 (0.03716), fp_0071 (0.03714), fp_0777 (0.03127), fp_0518 (0.02657).
+- Most common genes across predictable per-drug models: MYOF (26509) (92 drugs), TNFRSF12A (51330) (82 drugs), SDC4 (6385) (74 drugs), CCN1 (3491) (71 drugs), PRSS23 (11098) (69 drugs), WWTR1 (25937) (61 drugs), LAMB2 (3913) (60 drugs), GPX8 (493869) (59 drugs).
+- Per-drug cross-validated predictability for AZD7762: R2=0.2053.
+
+Write one grounded markdown report with the required section headings.

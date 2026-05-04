@@ -1,0 +1,95 @@
+[SYSTEM]
+You are a careful pharmacogenomics model explainer.
+Write a grounded report from structured evidence only.
+Rules:
+1. For the response target in the prompt, lower values mean greater sensitivity and higher values mean greater resistance.
+2. For SHAP inputs, positive SHAP values push the prediction toward higher target values/resistance and negative SHAP values push toward lower target values/sensitivity.
+3. Separate local evidence for this sample from global model context.
+4. Treat train_r2, train_rmse, and train_corr as training-fit diagnostics only.
+5. Do not invent pathways, biomarkers, or mechanisms that are not supported by the prompt.
+6. If a field is missing, say it is unavailable.
+7. Do not give clinical advice.
+8. Return only markdown for the final report.
+9. Use short paragraphs and keep the report under 550 words.
+10. Follow the Lee-style four-part grounding flow: sample context, SHAP/feature evidence, metadata-backed support, and caveats.
+11. Use these exact section headings:
+## Executive Summary
+## Evidence-Based Interpretation
+## Feature and Neighborhood Analysis
+## Model-Level Context
+## Confidence and Caveats
+
+[USER]
+Case: RPT-0015 - BRD1835 on MONOMAC6
+
+Lee-style grounding components:
+1. sample_context: Explain the observed response of BRD1835 on MONOMAC6 using observed log10(IC50), the RF-predicted log10(IC50), and the local drug/cell cohort baselines.
+2. shap_evidence: Prioritize the top TreeSHAP features, explicitly stating whether each feature pushes the prediction toward higher log10(IC50)/resistance or lower log10(IC50)/sensitivity.
+3. metadata_grounding: Ground feature descriptions in local metadata only: gene recurrence counts, target matches, fingerprint SMARTS annotations, prevalence across compounds, and same-drug/same-cell cohort examples.
+4. scope_and_caveats: Keep conclusions non-causal, note that SHAP explains the RF prediction rather than biology directly, and separate local case evidence from global training diagnostics.
+
+Case-level evidence:
+- source_type: tree_shap_rf
+- report_id: RPT-0015
+- evidence_id: SHAP-0015
+- drug_name: BRD1835
+- drug_id: 404070
+- gene_target: EZH2
+- mechanism: product of diversity oriented synthesis; screening hit
+- per_drug_cv_r2: -0.05832192889319
+- cell_line: MONOMAC6
+- tissue: haematopoietic and lymphoid tissue
+- histology: haematopoietic neoplasm
+- subtype: acute myeloid leukaemia
+- target_label: log10(IC50)
+- observed_log10_ic50: -3.3440
+- model_predicted_log10_ic50: 0.8039
+- prediction_error: -4.1480
+- abs_error: 4.1480
+- global_mean_log10_ic50: 0.6392
+- interpretation: exceptionally sensitive relative to the SHAP-predicted response and cohort baselines
+- selection_reason: Manifest 25_pairs.csv row 15 (B_outlier): BRD1835 on MONO-MAC-6 / ACH-000006 (Myeloid); observed log10(IC50)=-3.3440.
+
+Drug cohort context:
+- n=401 | mean_log10_ic50=1.9688 | q10=1.5533 | median=2.0425 | q90=2.4850 | sample_percentile=0.2
+Cell cohort context:
+- n=159 | mean_log10_ic50=0.4263 | q10=-1.8508 | median=0.6891 | q90=1.8400 | sample_percentile=1.3
+
+Top TreeSHAP features:
+1. CCN1 (3491) | type=gene_expression | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.1844 | abs_shap=0.1844 | value=0.7669 | z=-1.46 | supporting_drugs=71 | note=below the cross-cell-line mean; recurs in 71 predictable-drug RF signatures
+2. fp_0141 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.1234 | abs_shap=0.1234 | value=0.0000 | pct_drugs=1.5 | SMARTS=[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7] | example_drugs=dexamethasone, austocystin D, daporinad | note=representative SMARTS `[#7]-[#6](=[#8])-[#6]1(-[#6]-[#6]-1)-[#6](=[#8])-[#7]`; present in 1.5% of CTRPv2 compounds; example compounds: dexamethasone, austocystin D, daporinad
+3. fp_0518 | type=fingerprint_bit | pushes the prediction toward lower log10(IC50) (relative sensitivity) | shap=-0.0659 | abs_shap=0.0659 | value=1.0000 | pct_drugs=4.0 | SMARTS=[#6]:[#7]:[#8] | example_drugs=valdecoxib, neuronal differentiation inducer III, BMS-754807 | note=representative SMARTS `[#6]:[#7]:[#8]`; present in 4.0% of CTRPv2 compounds; example compounds: valdecoxib, neuronal differentiation inducer III, BMS-754807
+4. fp_0062 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0458 | abs_shap=0.0458 | value=1.0000 | pct_drugs=3.7 | SMARTS=[#6]-[#6](:[#6]):[#16] | example_drugs=Merck60, cytarabine hydrochloride, VX-680 | note=representative SMARTS `[#6]-[#6](:[#6]):[#16]`; present in 3.7% of CTRPv2 compounds; example compounds: Merck60, cytarabine hydrochloride, VX-680
+5. fp_0017 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0393 | abs_shap=0.0393 | value=0.0000 | pct_drugs=2.3 | SMARTS=[#8]-[#6@](-[#6@@H])(-[#6])-[#6@@](-[#8]-[#6])(-[#6@@H](-[#6@@H])-[#6])-[#6](:[#6]):[#6] | example_drugs=bexarotene, SR-II-138A, CR-1-31B | note=representative SMARTS `[#8]-[#6@](-[#6@@H])(-[#6])-[#6@@](-[#8]-[#6])(-[#6@@H](-[#6@@H])-[#6])-[#6](:[#6]):[#6]`; present in 2.3% of CTRPv2 compounds; example compounds: bexarotene, SR-II-138A, CR-1-31B
+6. fp_0513 | type=fingerprint_bit | pushes the prediction toward higher log10(IC50) (relative resistance) | shap=+0.0190 | abs_shap=0.0190 | value=0.0000 | pct_drugs=0.8 | SMARTS=[#8]-[#6](:[#6]):[#6]:[#6](:[#6])-[#8] | example_drugs=epigallocatechin-3-monogallate, CAY10594, avrainvillamide | note=representative SMARTS `[#8]-[#6](:[#6]):[#6]:[#6](:[#6])-[#8]`; present in 0.8% of CTRPv2 compounds; example compounds: epigallocatechin-3-monogallate, CAY10594, avrainvillamide
+
+Same-drug cohort examples:
+1. cell=MINO | tissue=haematopoietic and lymphoid tissue | auc=-2.7701 | profile=more sensitive
+2. cell=NCIH810 | tissue=lung | auc=-1.9484 | profile=more sensitive
+3. cell=NCIH2444 | tissue=lung | auc=3.3084 | profile=more resistant
+4. cell=KYSE180 | tissue=oesophagus | auc=3.4227 | profile=more resistant
+
+Same-cell cohort examples:
+1. drug=BRD-K34222889 | target=n/a | auc=-3.8754 | profile=more sensitive
+2. drug=SN-38 | target=TOP1 | auc=-3.2502 | profile=more sensitive
+3. drug=etomoxir | target=CPT1A | auc=3.2451 | profile=more resistant
+4. drug=CIL70 | target=n/a | auc=3.3354 | profile=more resistant
+
+Knowledge sources:
+- results/tuning/shap_values.parquet
+- data/CTRPv2/v21.meta.per_compound.txt
+- data/CTRPv2/v21.meta.per_cell_line.txt
+- results/rf_plots/per_drug_r2.csv
+- results/rf_plots/gene_signature_counts.csv
+- data/processed/pairs.csv
+
+Global model context:
+- DEM training fit only: n_samples=181811, n_features=2024, train_r2=0.4042, train_rmse=1.0264, train_corr=0.6385. Treat these as training diagnostics, not held-out generalization.
+- Max-depth tuning best row: max_depth=20, n_estimators=100, r2=0.5459.
+- N-estimator tuning best row: max_depth=10, n_estimators=235, mean_r2=0.3803, std_r2=0.0031.
+- Top global fingerprint features: fp_0141 (0.11630), fp_0513 (0.04974), fp_0535 (0.03781), fp_0017 (0.03749), fp_0723 (0.03716), fp_0071 (0.03714), fp_0777 (0.03127), fp_0518 (0.02657).
+- Most common genes across predictable per-drug models: MYOF (26509) (92 drugs), TNFRSF12A (51330) (82 drugs), SDC4 (6385) (74 drugs), CCN1 (3491) (71 drugs), PRSS23 (11098) (69 drugs), WWTR1 (25937) (61 drugs), LAMB2 (3913) (60 drugs), GPX8 (493869) (59 drugs).
+- Per-drug cross-validated predictability for BRD1835: R2=-0.0583.
+- Cell subtype metadata is available: acute myeloid leukaemia.
+
+Write one grounded markdown report with the required section headings.
